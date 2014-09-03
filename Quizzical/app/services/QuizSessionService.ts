@@ -8,4 +8,11 @@ module Quizzical {
         join(id: number): QuizSession;
     }
 
+    class QuizSessionService {
+
+    }
+
+    angular.module('Quizzical.Services')
+        .service('QuizSessionService', QuizSessionService);
+
 }

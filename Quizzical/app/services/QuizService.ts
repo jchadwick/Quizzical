@@ -7,4 +7,11 @@ module Quizzical {
         save(quiz: Quiz): Quiz;
     }
 
+    class QuizSessionService {
+
+    }
+
+    angular.module('Quizzical.Services')
+        .service('QuizSessionService', QuizSessionService);
+
 }

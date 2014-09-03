@@ -2,6 +2,10 @@
 
 describe("[Acceptance]", function () {
 
+
+    beforeEach(module('Quizzical.App'));
+
+
     describe("Unauthenticated Users", function () {
 
         it("should be shown the login page", function () {

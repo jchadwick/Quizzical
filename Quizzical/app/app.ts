@@ -10,5 +10,5 @@ module Quizzical.App {
     }
 
 
-    angular.module('Quizzical', []).config(config).run(init);
+    angular.module('Quizzical.App', []).config(config).run(init);
 }
