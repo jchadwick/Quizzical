@@ -44,7 +44,7 @@ module Quizzical {
     angular.module('Quizzical.Services')
         .factory('QuizSessionData', ['$resource', ($resource: ng.resource.IResourceService) => {
             return $resource<QuizSession>('/api/quizzes/:quizId/sessions/:sessionId', { 'quizId': '@quizId', 'sessionId':'@sessionId'}, {
-                'available': { method: 'GET', url: '/api/quizSessions', isArray: true },
+                'available': { method: 'GET', url: '/api/quizzes/sessions/available', isArray: true },
                 'join': { method: 'POST', url: '/api/quizzes/:quizId/sessions/:sessionId/join' },
             });
         }]);

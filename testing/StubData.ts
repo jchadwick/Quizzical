@@ -38,17 +38,27 @@
             }
         ];
 
+
+
+        function findSessionByQuizId(quizId: number) {
+            var matches = sessions.filter(s => s.quizId == quizId);
+            return (matches.length) ? matches[0] : null;
+        }
+
+
         return {
             quizzes: quizzes,
             findQuiz: finder(quizzes),
 
             sessions: sessions,
             findSession: finder(sessions),
+            findSessionByQuizId: findSessionByQuizId,
 
             users: users,
             findUser: finder(users),
         };
     }
+
 
 
 

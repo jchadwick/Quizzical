@@ -13,7 +13,7 @@ module Quizzical {
 
     describe('QuizSessionService', () => {
 
-        var service, quizSessionsApiUrl = '/api/quizzes';
+        var service;
 
         beforeEach(inject((QuizSessionService: IQuizSessionService) => {
             service = QuizSessionService;
@@ -23,7 +23,7 @@ module Quizzical {
         it('should create new session', (done) => {
             var quiz = StubData.findQuiz();
 
-            $httpBackend.expectPOST([quizSessionsApiUrl, quiz.id, 'sessions'].join('/'))
+            $httpBackend.expectPOST(getApiUrl(quiz.id))
                         .respond(<QuizSession>{ quizId: quiz.id });
 
             service.create(quiz.id).then(session => {
@@ -35,11 +35,25 @@ module Quizzical {
         });
 
 
-        it('should list available sessions', (done) => {
+        it('should list available sessions for all quizzes', (done) => {
 
-            $httpBackend.expectGET('/api/quizSessions').respond(StubData.sessions);
+            $httpBackend.expectGET(getApiUrl(null, null, 'available')).respond(StubData.sessions);
 
             service.list().then(sessions => {
+                expect(sessions).toContainAllItemsIn(StubData.sessions);
+                done();
+            });
+
+            $httpBackend.flush();
+        });
+
+
+        it('should list sessions for a quiz', (done) => {
+            var quiz = StubData.findQuiz();
+
+            $httpBackend.expectGET(getApiUrl(quiz.id)).respond(StubData.sessions);
+
+            service.list(quiz.id).then(sessions => {
                 expect(sessions).toContainAllItemsIn(StubData.sessions);
                 done();
             });
@@ -51,9 +65,9 @@ module Quizzical {
         it('should join available session', (done) => {
 
             var quiz = StubData.findQuiz(),
-                session = StubData.findSession();
+                session = StubData.findSessionByQuizId(quiz.id);
 
-            $httpBackend.expectPOST([quizSessionsApiUrl, quiz.id, 'sessions', session.id, 'join'].join('/'))
+            $httpBackend.expectPOST(getApiUrl(quiz.id, session.id, 'join'))
                 .respond(session);
 
             service.join(quiz.id, session.id).then(joined => {
@@ -63,6 +77,18 @@ module Quizzical {
 
             $httpBackend.flush();
         });
+
+
+        function getApiUrl(quizId?: number, sessionId?: number, action?: string) {
+            var parts = ['/api/quizzes'];
+
+            if (quizId) parts.push(quizId);
+            parts.push('sessions');
+            if (sessionId) parts.push(sessionId);
+            if (action) parts.push(action);
+
+            return parts.join('/');
+        }
 
     });
 }
