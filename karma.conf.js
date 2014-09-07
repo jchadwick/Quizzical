@@ -20,8 +20,13 @@ module.exports = function (config) {
             'lib/angular-mocks.js',
             'app/*.js',
             'app/**/*.js',
+            'testing/*.js',
             '**/*.spec.js'
         ],
+
+        proxies: {
+            "/base": ""
+        },
 
 
         // list of files to exclude

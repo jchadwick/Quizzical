@@ -4,7 +4,8 @@
 /// <reference path="../../typings/angularjs/angular-mocks.d.ts" />
 /// <reference path="../../typings/jasmine/jasmine.d.ts" />
 /// <reference path="../../typings/jasmine/jasmine-matchers.d.ts" />
-/// <reference path="../../typings/custom/jasmine-matchers.d.ts" />
+/// <reference path="../../testing/matchers.d.ts" />
+
 var $httpBackend: ng.IHttpBackendService;
 
 module Quizzical {
@@ -12,19 +13,56 @@ module Quizzical {
 
     describe('QuizSessionService', () => {
 
-        var sessions = [{ id: 1 }];
-        var $http;
-        
-        beforeEach(inject((_$http_) => {
-            $http = _$http_;
-            $httpBackend.when('GET', '/api/quizSessions').respond(sessions);
+        var service, quizSessionsApiUrl = '/api/quizzes';
+
+        beforeEach(inject((QuizSessionService: IQuizSessionService) => {
+            service = QuizSessionService;
         }));
 
-        it('should work', () => {
 
+        it('should create new session', (done) => {
+            var quiz = StubData.findQuiz();
+
+            $httpBackend.expectPOST([quizSessionsApiUrl, quiz.id, 'sessions'].join('/'))
+                        .respond(<QuizSession>{ quizId: quiz.id });
+
+            service.create(quiz.id).then(session => {
+                expect(session.quizId).toBe(quiz.id);
+                done();
+            });
 
             $httpBackend.flush();
-        })
+        });
 
-    })
+
+        it('should list available sessions', (done) => {
+
+            $httpBackend.expectGET('/api/quizSessions').respond(StubData.sessions);
+
+            service.list().then(sessions => {
+                expect(sessions).toContainAllItemsIn(StubData.sessions);
+                done();
+            });
+
+            $httpBackend.flush();
+        });
+
+
+        it('should join available session', (done) => {
+
+            var quiz = StubData.findQuiz(),
+                session = StubData.findSession();
+
+            $httpBackend.expectPOST([quizSessionsApiUrl, quiz.id, 'sessions', session.id, 'join'].join('/'))
+                .respond(session);
+
+            service.join(quiz.id, session.id).then(joined => {
+                expect(joined.id).toBe(session.id);
+                done();
+            });
+
+            $httpBackend.flush();
+        });
+
+    });
 }

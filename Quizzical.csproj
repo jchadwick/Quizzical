@@ -56,8 +56,9 @@
     <Content Include=".gitignore" />
     <Content Include="app\.gitignore" />
     <Content Include="package.json" />
+    <Content Include="testing\.gitignore" />
     <TypeScriptCompile Include="app\acceptance.spec.ts" />
-    <TypeScriptCompile Include="app\test_init.ts" />
+    <TypeScriptCompile Include="testing\beforeEach.ts" />
     <Content Include="karma.conf.js" />
     <Content Include="lib\angular-animate.js" />
     <Content Include="lib\angular-animate.min.js" />
@@ -105,10 +106,12 @@
     <TypeScriptCompile Include="app\services\QuizSessionService.spec.ts" />
     <TypeScriptCompile Include="app\services\QuizSessionService.ts" />
     <TypeScriptCompile Include="app\SessionList\SessionListController.ts" />
+    <TypeScriptCompile Include="testing\matchers.ts" />
+    <TypeScriptCompile Include="testing\StubData.ts" />
     <TypeScriptCompile Include="typings\angularjs\angular-mocks.d.ts" />
     <TypeScriptCompile Include="typings\angularjs\angular-resource.d.ts" />
     <TypeScriptCompile Include="typings\angularjs\angular.d.ts" />
-    <TypeScriptCompile Include="typings\custom\jasmine-matchers.d.ts" />
+    <TypeScriptCompile Include="testing\matchers.d.ts" />
     <TypeScriptCompile Include="typings\jasmine\jasmine-matchers.d.ts" />
     <TypeScriptCompile Include="typings\jasmine\jasmine.d.ts" />
     <TypeScriptCompile Include="typings\jquery\jquery.d.ts" />
@@ -130,6 +133,8 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="typings\custom\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
 </Project>
