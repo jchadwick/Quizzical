@@ -1,0 +1,9 @@
+﻿{
+    "References": [
+        { "Path": "lib/jquery-1.10.2.js" },
+        { "Path": "lib/angular.js" },
+        { "Path": "lib/angular-resource.js" },
+        { "Path": "lib/angular-mocks.js" },
+        { "Path": "app", "Include":  "*.js", "Exclude":  "acceptance.spec.js" }
+    ]
+}
