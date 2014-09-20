@@ -15,7 +15,9 @@ module.exports = function (grunt) {
             server: {
                 options: {
                     port: 8080,
-                    base: './'
+                    hostname: 'localhost',
+                    base: './',
+					livereload: true
                 }
             }
         },
@@ -34,8 +36,16 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-            files: '**/*.ts',
-            tasks: ['typescript']
+        	"static": {
+        		files: [ '**/*.css', '**/*.html', '**/*.js' ],
+        		options: {
+	        		livereload: true
+        		}
+        	},
+        	typescript: {
+                files: '**/*.ts',
+	            tasks: ['typescript']
+	    	}
         },
         open: {
             dev: {
