@@ -9,7 +9,14 @@
     "karma-jasmine": "~0.2.0",
     "karma-phantomjs-launcher": "~0.1.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "typescript": "~1.0.1",
+    "grunt-typescript": "~0.3.8",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-connect": "~0.8.0",
+    "grunt-open": "~0.2.3"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/jchadwick/Quizzical.git"
