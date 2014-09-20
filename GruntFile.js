@@ -1,17 +1,27 @@
 module.exports = function (grunt) {
-    grunt.loadNpmTasks('grunt-typescript');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-open');
+    require('load-grunt-tasks')(grunt);
  
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        concurrent: {
+            target: {
+                options: {
+                    logConcurrentOutput: true
+                },
+                tasks: ['karma:unit', 'watch']
+            }
+        },
         connect: {
             server: {
                 options: {
                     port: 8080,
                     base: './'
                 }
+            }
+        },
+        karma: {
+            unit: {
+                configFile: 'karma.conf.js'
             }
         },
         typescript: {
@@ -34,6 +44,6 @@ module.exports = function (grunt) {
         }
     });
  
-    grunt.registerTask('default', ['connect', 'open', 'watch']);
+    grunt.registerTask('default', ['connect', 'open', 'concurrent:target']);
  
 }
