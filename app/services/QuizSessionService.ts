@@ -14,13 +14,16 @@ module Quizzical {
 
     class QuizSessionService {
 
-        static $inject = ['QuizSessionData'];
+        static $inject = ['QuizSessionData', '$q'];
 
-        constructor(private QuizSessionData: ng.resource.IResourceClass<QuizSession>) {
+        constructor(
+            private QuizSessionData: ng.resource.IResourceClass<QuizSession>, 
+            private $q: ng.IQService) {
         }
 
         create(quizId: number): ng.IPromise<QuizSession> {
-            return this.QuizSessionData.save({quizId: quizId}).$promise;
+            var session = {id: 1, quizId: quizId, connectedUserIds: [], currentQuestionId: 1};
+            return (<any>this.QuizSessionData.save(session)).$promise;
         }
 
         join(quizId: number, sessionId: number): ng.IPromise<QuizSession> {
