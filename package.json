@@ -24,6 +24,9 @@
     "type": "git",
     "url": "https://github.com/jchadwick/Quizzical.git"
   },
+  "scripts": {
+      "test": "grunt test"
+  },
   "author": "Jess Chadwick <jesschadwick@gmail.com>",
   "bugs": {
     "url": "https://github.com/jchadwick/Quizzical/issues"

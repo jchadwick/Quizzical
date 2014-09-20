@@ -24,6 +24,11 @@ module.exports = function (grunt) {
         karma: {
             unit: {
                 configFile: 'karma.conf.js'
+            },
+            travis: {
+                configFile: 'karma.conf.js',
+                singleRun: true,
+                browsers: ['PhantomJS']
             }
         },
         typescript: {
@@ -55,5 +60,5 @@ module.exports = function (grunt) {
     });
  
     grunt.registerTask('default', ['connect', 'open', 'concurrent:target']);
- 
+    grunt.registerTask('test', ['typescript', 'karma:travis']); 
 }
