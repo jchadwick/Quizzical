@@ -14,10 +14,11 @@ module.exports = function (config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'lib/jquery-1.10.2.js',
-            'lib/angular.js',
-            'lib/angular-resource.js',
-            'lib/angular-mocks.js',
+            'bower_components/jquery/dist/jquery.js',
+            'bower_components/angular/angular.js',
+            'bower_components/angular-resource/angular-resource.js',
+            'bower_components/angular-mocks/angular-mocks.js',
+            'bower_components/angular-ui/build/angular-ui.js',
             'app/*.js',
             'app/**/*.js',
             'testing/*.js',

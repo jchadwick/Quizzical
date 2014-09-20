@@ -1,0 +1,13 @@
+{
+  "name": "Quizzical",
+  "dependencies": {
+    "angular-ui": "~0.4.0",
+    "angularjs": "~1.2.25",
+    "angular-toastr": "~0.4.0",
+    "angular-resource": "~1.2.25",
+    "angular-animate": "~1.2.25",
+    "angular-mocks": "~1.2.25",
+    "angular-touch": "~1.2.25"
+  },
+  "private": true
+}
