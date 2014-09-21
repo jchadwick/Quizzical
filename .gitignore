@@ -149,7 +149,6 @@ ClientBin/
 *.dbproj.schemaview
 *.pfx
 *.publishsettings
-node_modules/
 
 # RIA/Silverlight projects
 Generated_Code/
@@ -173,4 +172,6 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
+node_modules/
 bower_components/
+.idea/
