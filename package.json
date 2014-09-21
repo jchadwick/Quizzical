@@ -5,6 +5,7 @@
   "main": "karma.conf.js",
   "dependencies": {
     "bower": "^1.3.11",
+    "harp": "*",
     "karma": "~0.12.23",
     "karma-growl-reporter": "~0.1.1",
     "karma-jasmine": "~0.2.0",
