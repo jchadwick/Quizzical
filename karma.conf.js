@@ -22,7 +22,7 @@ module.exports = function (config) {
             'app/*.js',
             'app/**/*.js',
             'testing/*.js',
-            '**/*.spec.js'
+            'app/**/*.spec.js'
         ],
 
         proxies: {

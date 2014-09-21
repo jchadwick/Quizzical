@@ -1,6 +1,8 @@
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
- 
+
+    var tsFiles = ['app/*.ts','app/**/*.ts','testing/*.ts'];
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         concurrent: {
@@ -33,7 +35,7 @@ module.exports = function (grunt) {
         },
         typescript: {
             base: {
-                src: ['**/*.ts'],
+                src: tsFiles,
                 options: {
                     module: 'amd',
                     target: 'es5'
@@ -48,7 +50,7 @@ module.exports = function (grunt) {
         		}
         	},
         	typescript: {
-                files: '**/*.ts',
+              files: tsFiles,
 	            tasks: ['typescript']
 	    	}
         },
@@ -58,7 +60,7 @@ module.exports = function (grunt) {
             }
         }
     });
- 
+
     grunt.registerTask('default', ['connect', 'open', 'concurrent:target']);
-    grunt.registerTask('test', ['typescript', 'karma:travis']); 
+    grunt.registerTask('test', ['typescript', 'karma:travis']);
 }
