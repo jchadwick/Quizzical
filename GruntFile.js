@@ -16,10 +16,10 @@ module.exports = function (grunt) {
         connect: {
             server: {
                 options: {
-                    port: 8080,
+                    port: 3000,
                     hostname: 'localhost',
                     base: './',
-					livereload: true
+		                livereload: true
                 }
             }
         },
@@ -56,11 +56,12 @@ module.exports = function (grunt) {
         },
         open: {
             dev: {
-                path: 'http://localhost:8080/index.html'
+                path: 'http://localhost:3000/'
             }
         }
     });
 
-    grunt.registerTask('default', ['connect', 'open', 'concurrent:target']);
+    grunt.registerTask('server', ['connect', 'open', 'concurrent:target']);
     grunt.registerTask('test', ['typescript', 'karma:travis']);
+    grunt.registerTask('default', ['server']);
 }
