@@ -22,19 +22,11 @@ module Quizzical {
 
 
         it('should create new session', (done) => {
-            if(!service) console.log('service IS NULL!')
-
             var quiz = StubData.findQuiz();
-
-            if(!quiz) console.log('quiz IS NULL!')
-            if(!quiz.id) console.log('quiz.id IS NULL!')
-            if(!getApiUrl) console.log('getApiUrl IS NULL!')
 
             $httpBackend.expectPOST(getApiUrl(quiz.id))
                         .respond(<QuizSession>{ quizId: quiz.id });
 
-            if(!service) console.log('service IS NULL!')
-            if(!service.create) console.log('service.create IS NULL!')
             service.create(quiz.id).then(session => {
                 expect(session.quizId).toBe(quiz.id);
                 done();
