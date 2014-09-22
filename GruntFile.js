@@ -62,6 +62,7 @@ module.exports = function (grunt) {
     });
 
     grunt.registerTask('server', ['connect', 'open', 'concurrent:target']);
+    grunt.registerTask('dev-watch', ['concurrent:target']);
     grunt.registerTask('test', ['typescript', 'karma:travis']);
     grunt.registerTask('default', ['server']);
 }
