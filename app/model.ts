@@ -48,7 +48,8 @@ module Quizzical {
 
     export interface AnswerSummary {
         questionOptionId: number;
-        percentageSelected: number;
+        count: number;
+        percentage: number;
     }
 
 	export interface QuizSession {
