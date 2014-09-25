@@ -12,45 +12,44 @@ module Quizzical {
     }
 
 
-    class QuizSessionService {
+    QuizSessionService.$inject = ['$resource'];
 
-        static $inject = ['QuizSessionData', '$q'];
+    function QuizSessionService($resource: ng.resource.IResourceService) {
 
-        constructor(
-            private QuizSessionData: ng.resource.IResourceClass<QuizSession>, 
-            private $q: ng.IQService) {
-        }
+        var QuizSessionData =
+            $resource<QuizSession>('/api/quizzes/:quizId/sessions/:sessionId', { 'quizId': '@quizId', 'sessionId': '@sessionId' }, {
+                'available': { method: 'GET', url: '/api/quizzes/sessions/available', isArray: true },
+                'join': { method: 'POST', url: '/api/quizzes/:quizId/sessions/:sessionId/join' },
+            });
 
-        create(quizId: number): ng.IPromise<QuizSession> {
-            var session = {id: 1, quizId: quizId, connectedUserIds: [], currentQuestionId: 1};
-            return (<any>this.QuizSessionData.save(session)).$promise;
-        }
 
-        join(quizId: number, sessionId: number): ng.IPromise<QuizSession> {
-            if (!angular.isDefined(quizId)) throw 'Invalid Quiz Id';
-            if (!angular.isDefined(sessionId)) throw 'Invalid Session Id';
+        return <IQuizSessionService> {
 
-            return (<any>this.QuizSessionData).join({ quizId: quizId, sessionId: sessionId }).$promise;
-        }
+            create: (quizId: number): ng.IPromise<QuizSession> => {
+                var session = { id: 1, quizId: quizId, connectedUserIds: [], currentQuestionId: 1 };
+                return (<any>QuizSessionData.save(session)).$promise;
+            },
 
-        list(quizId?: number): ng.IPromise<QuizSession[]> {
-            var query =
-                angular.isDefined(quizId)
-                ? this.QuizSessionData.query({ quizId: quizId })
-                : (<any>this.QuizSessionData).available();
+            join: (quizId: number, sessionId: number): ng.IPromise<QuizSession> => {
+                if (!angular.isDefined(quizId)) throw 'Invalid Quiz Id';
+                if (!angular.isDefined(sessionId)) throw 'Invalid Session Id';
 
-            return query.$promise;
+                return (<any>QuizSessionData).join({ quizId: quizId, sessionId: sessionId }).$promise;
+            },
+
+            list: (quizId?: number): ng.IPromise<QuizSession[]> => {
+                var query =
+                    angular.isDefined(quizId)
+                    ? QuizSessionData.query({ quizId: quizId })
+                    : (<any>QuizSessionData).available();
+
+                return query.$promise;
+            }
+
         }
     }
 
 
-    angular.module('Quizzical.Services')
-        .factory('QuizSessionData', ['$resource', ($resource: ng.resource.IResourceService) => {
-            return $resource<QuizSession>('/api/quizzes/:quizId/sessions/:sessionId', { 'quizId': '@quizId', 'sessionId':'@sessionId'}, {
-                'available': { method: 'GET', url: '/api/quizzes/sessions/available', isArray: true },
-                'join': { method: 'POST', url: '/api/quizzes/:quizId/sessions/:sessionId/join' },
-            });
-        }]);
 
     angular.module('Quizzical.Services')
         .service('QuizSessionService', QuizSessionService);

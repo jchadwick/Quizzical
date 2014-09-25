@@ -6,69 +6,47 @@ module Quizzical {
     'use strict';
 
     export interface IQuizService {
-        delete(quiz: Quiz): ng.IPromise<void>;
         delete(quizId: number): ng.IPromise<void>;
         getAll(): ng.IPromise<Quiz[]>;
         getById(quizId: number): ng.IPromise<Quiz>;
         save(quiz: Quiz): ng.IPromise<Quiz>;
     }
 
-    interface IQuiz extends Quiz, ng.resource.IResource<IQuiz> {
-    }
 
-    interface IQuizDataSource extends ng.resource.IResourceClass<IQuiz> {
-        update(quiz: Quiz): ng.IPromise<Quiz>;
-    }
+    QuizService.$inject = ['$resource'];
 
-    class QuizService implements IQuizService {
+    function QuizService($resource: ng.resource.IResourceService) {
 
-        static $inject = ['QuizDataSource'];
+        var QuizDataSource = $resource<ng.resource.IResource<Quiz>>('/api/quizzes/:quizId', { 'quizId': '@quizId' }, {
+            'update': { method: 'POST', params: { 'quizId': '@id' } }
+        });
 
-        constructor(private QuizDataSource: IQuizDataSource) {
-            this.CreateQuizCommand = (q?: any) => {
-              return new QuizDataSource(q);
-            };
-        }
 
-        private CreateQuizCommand(q?: any): IQuiz {
-            throw 'NotImplemented';
-        }
+        return <IQuizService> {
 
-        'delete'(quiz:Quizzical.Quiz): ng.IPromise<void>;
-        'delete'(quizId:number): ng.IPromise<void>;
-        'delete'(parm: any): ng.IPromise<void> {
-            var quizId : number =
-                angular.isNumber(parm)
-                    ? parm
-                    : (parm && parm.id ? parm.id : null);
+            'delete': (quizId: number): ng.IPromise<void> => {
+                return (<any>QuizDataSource).delete({ quizId: quizId }).$promise;
+            },
 
-            return (<any>this.QuizDataSource.delete({ quizId: quizId })).$promise;
-        }
+            getAll: (): ng.IPromise<Quizzical.Quiz[]> => {
+                return (<any>QuizDataSource).query().$promise;
+            },
 
-        getAll():ng.IPromise<Quizzical.Quiz[]> {
-            return (<any>this.QuizDataSource.query()).$promise;
-        }
+            getById: (quizId: number): ng.IPromise<Quizzical.Quiz> => {
+                return new QuizDataSource({ quizId: quizId }).$get();
+            },
 
-        getById(quizId:number):ng.IPromise<Quizzical.Quiz> {
-            return this.CreateQuizCommand({ quizId: quizId }).$get();
-        }
-
-        save(quiz:Quizzical.Quiz):ng.IPromise<Quizzical.Quiz> {
-            if(!quiz.id) {
-                return this.CreateQuizCommand(quiz).$save();
-            } else {
-                return (<any>this.QuizDataSource.update(quiz)).$promise;
+            save: (quiz: Quizzical.Quiz): ng.IPromise<Quizzical.Quiz> => {
+                if (!quiz.id) {
+                    return new QuizDataSource(quiz).$save();
+                } else {
+                    return (<any>QuizDataSource).update(quiz).$promise;
+                }
             }
-        }
+        };
 
     }
 
-    angular.module('Quizzical.Services')
-        .factory('QuizDataSource', ['$resource', ($resource: ng.resource.IResourceService) => {
-            return $resource<Quiz>('/api/quizzes/:quizId', { 'quizId': '@quizId'}, {
-                'update': { method: 'POST', params: { 'quizId': '@id' } }
-            });
-        }]);
 
     angular.module('Quizzical.Services')
         .service('QuizService', QuizService);
