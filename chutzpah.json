@@ -1,9 +1,11 @@
 ﻿{
     "References": [
-        { "Path": "lib/jquery-1.10.2.js" },
-        { "Path": "lib/angular.js" },
-        { "Path": "lib/angular-resource.js" },
-        { "Path": "lib/angular-mocks.js" },
+        { "Path": "bower_components/jquery/dist/jquery.js" },
+        { "Path": "bower_components/angular/angular.js" },
+        { "Path": "bower_components/angular-resource/angular-resource.js" },
+        { "Path": "bower_components/angular-mocks/angular-mocks.js" },
+        { "Path": "bower_components/angular-ui/build/angular-ui.js" },
+        { "Path": "testing", "Include":  "*.js" },
         { "Path": "app", "Include":  "*.js", "Exclude":  "acceptance.spec.js" }
     ]
 }
