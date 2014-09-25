@@ -77,10 +77,10 @@ module Quizzical {
 
         it('should delete existing question by id', (done) => {
 
-            $httpBackend.expectDELETE(getApiUrl(question.Id))
+            $httpBackend.expectDELETE(getApiUrl(question.id))
                         .respond(200);
 
-            service.delete(quizId, question.Id)
+            service.delete(quizId, question.id)
                    .then(done);
 
             $httpBackend.flush();
