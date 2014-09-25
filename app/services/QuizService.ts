@@ -65,8 +65,8 @@ module Quizzical {
 
     angular.module('Quizzical.Services')
         .factory('QuizDataSource', ['$resource', ($resource: ng.resource.IResourceService) => {
-            return $resource<QuizSession>('/api/quizzes/:quizId', { 'quizId': '@quizId'}, {
-                'update': { method: 'PUT', params: { 'quizId': '@id' } }
+            return $resource<Quiz>('/api/quizzes/:quizId', { 'quizId': '@quizId'}, {
+                'update': { method: 'POST', params: { 'quizId': '@id' } }
             });
         }]);
 

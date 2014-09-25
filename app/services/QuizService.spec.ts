@@ -82,7 +82,7 @@ module Quizzical {
         it('should update existing quiz', (done) => {
             var updated: Quiz = { id: 123, name: 'Updated Test Quiz', questions: [] };
 
-            $httpBackend.expectPUT(getApiUrl(updated.id))
+            $httpBackend.expectPOST(getApiUrl(updated.id))
                 .respond(updated);
 
             service.save(updated).then(resp => {
