@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
-    var tsFiles = ['app/*.ts','app/**/*.ts','testing/*.ts'];
+    var typescriptFiles = ['app/*.ts','app/**/*.ts','testing/*.ts'];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -34,8 +34,8 @@ module.exports = function (grunt) {
             }
         },
         typescript: {
-            base: {
-                src: tsFiles,
+            all: {
+                src: typescriptFiles,
                 options: {
                     module: 'amd',
                     target: 'es5'
@@ -48,11 +48,7 @@ module.exports = function (grunt) {
         		options: {
 	        		livereload: true
         		}
-        	},
-        	typescript: {
-              files: tsFiles,
-	            tasks: ['typescript']
-	    	}
+        	}
         },
         open: {
             dev: {
@@ -61,8 +57,26 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('server', ['connect', 'open', 'concurrent:target']);
-    grunt.registerTask('dev-watch', ['concurrent:target']);
+
+    // --with-ts command line option (for non-Visual Studio editors)
+    if (grunt.option('with-ts')) {
+
+        grunt.config.set('watch.typescript', {
+            files: typescriptFiles,
+            options: { spawn: false },
+            tasks: ['typescript'],
+        });
+
+        // Only compile individual TypeScript files on change
+        grunt.event.on('watch', function (action, filepath) {
+            if (filepath.lastIndexOf('.ts') >= 1)
+                grunt.config('typescript.all.src', filepath);
+        });
+
+    }
+
+    grunt.registerTask('dev-watch', ['typescript', 'concurrent:target']);
+    grunt.registerTask('server', ['typescript', 'connect', 'open', 'concurrent:target']);
     grunt.registerTask('test', ['typescript', 'karma:travis']);
     grunt.registerTask('default', ['server']);
 }
