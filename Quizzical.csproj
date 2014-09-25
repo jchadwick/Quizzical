@@ -55,45 +55,20 @@
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
     <Content Include="app\.gitignore" />
+    <Content Include="bower.json" />
+    <Content Include="GruntFile.js" />
+    <Content Include="index.html" />
     <Content Include="package.json" />
+    <Content Include="server.js" />
     <Content Include="testing\.gitignore" />
+    <Content Include="Procfile" />
     <TypeScriptCompile Include="app\acceptance.spec.ts" />
+    <TypeScriptCompile Include="app\services\QuestionService.spec.ts" />
+    <TypeScriptCompile Include="app\services\QuizService.spec.ts" />
     <TypeScriptCompile Include="testing\beforeEach.ts" />
     <Content Include="karma.conf.js" />
-    <Content Include="lib\angular-animate.js" />
-    <Content Include="lib\angular-animate.min.js" />
-    <Content Include="lib\angular-cookies.js" />
-    <Content Include="lib\angular-cookies.min.js" />
-    <Content Include="lib\angular-csp.css" />
-    <Content Include="lib\angular-loader.js" />
-    <Content Include="lib\angular-loader.min.js" />
-    <Content Include="lib\angular-mocks.js" />
-    <Content Include="lib\angular-resource.js" />
-    <Content Include="lib\angular-resource.min.js" />
-    <Content Include="lib\angular-route.js" />
-    <Content Include="lib\angular-route.min.js" />
-    <Content Include="lib\angular-sanitize.js" />
-    <Content Include="lib\angular-sanitize.min.js" />
-    <Content Include="lib\angular-scenario.js" />
-    <Content Include="lib\angular-touch.js" />
-    <Content Include="lib\angular-touch.min.js" />
-    <Content Include="lib\angular.js" />
-    <Content Include="lib\angular.min.js" />
-    <Content Include="lib\bootstrap.js" />
-    <Content Include="lib\bootstrap.min.js" />
     <Content Include="chutzpah.json" />
-    <None Include="lib\jquery-1.10.2.intellisense.js" />
-    <Content Include="lib\jquery-1.10.2.js" />
-    <Content Include="lib\jquery-1.10.2.min.js" />
-    <Content Include="lib\modernizr-2.6.2.js" />
-    <Content Include="lib\respond.js" />
-    <Content Include="lib\respond.min.js" />
-    <Content Include="lib\sammy-0.7.4.js" />
-    <Content Include="lib\sammy-0.7.4.min.js" />
-    <None Include="lib\_references.js" />
-    <Content Include="css\bootstrap.css" />
-    <Content Include="css\bootstrap.min.css" />
-    <Content Include="css\Site.css" />
+    <Content Include=".travis.yml" />
     <Content Include="favicon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -101,7 +76,7 @@
     <TypeScriptCompile Include="app\model.ts" />
     <TypeScriptCompile Include="app\QuizList\QuizListController.ts" />
     <TypeScriptCompile Include="app\QuizSession\QuizSessionController.ts" />
-    <TypeScriptCompile Include="app\services\AnswerService.ts" />
+    <TypeScriptCompile Include="app\services\QuestionService.ts" />
     <TypeScriptCompile Include="app\services\QuizService.ts" />
     <TypeScriptCompile Include="app\services\QuizSessionService.spec.ts" />
     <TypeScriptCompile Include="app\services\QuizSessionService.ts" />
@@ -117,21 +92,11 @@
     <TypeScriptCompile Include="typings\jquery\jquery.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\angular-animate.min.js.map" />
-    <Content Include="lib\angular-cookies.min.js.map" />
-    <Content Include="lib\angular-loader.min.js.map" />
-    <Content Include="lib\angular-resource.min.js.map" />
-    <Content Include="lib\angular-route.min.js.map" />
-    <Content Include="lib\angular-sanitize.min.js.map" />
-    <Content Include="lib\angular-touch.min.js.map" />
-    <Content Include="lib\angular.min.js.map" />
-    <Content Include="lib\errors.json" />
-    <Content Include="lib\jquery-1.10.2.min.map" />
-    <Content Include="lib\version.json" />
     <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="typings\custom\" />

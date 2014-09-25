@@ -35,10 +35,20 @@ module Quizzical {
 		id: number;
 		questionId: number;
 		questionOptionId: number;
-		quizId: number;
-        quizSessionId: number;
+        sessionId: number;
 		userId: string;
 	}
+
+    export interface AnswersSummary {
+        questionId: number;
+        sessionId: number;
+        answers: AnswerSummary[];
+    }
+
+    export interface AnswerSummary {
+        questionOptionId: number;
+        percentageSelected: number;
+    }
 
 	export interface QuizSession {
 		id: number;
