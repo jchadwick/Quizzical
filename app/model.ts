@@ -32,7 +32,7 @@ module Quizzical {
 	}
 
 	export interface Answer {
-		id: number;
+		id?: number;
 		questionId: number;
 		questionOptionId: number;
         sessionId: number;
@@ -40,6 +40,7 @@ module Quizzical {
 	}
 
     export interface AnswersSummary {
+        quizId: number;
         questionId: number;
         sessionId: number;
         answers: AnswerSummary[];

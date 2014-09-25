@@ -63,6 +63,8 @@
     <Content Include="testing\.gitignore" />
     <Content Include="Procfile" />
     <TypeScriptCompile Include="app\acceptance.spec.ts" />
+    <TypeScriptCompile Include="app\services\AnswerService.ts" />
+    <TypeScriptCompile Include="app\services\AnswerService.spec.ts" />
     <TypeScriptCompile Include="app\services\QuestionService.spec.ts" />
     <TypeScriptCompile Include="app\services\QuizService.spec.ts" />
     <TypeScriptCompile Include="testing\beforeEach.ts" />
