@@ -3,14 +3,15 @@
 /// <reference path="../typings/angularjs/angular-resource.d.ts" />
 /// <reference path="../typings/angularjs/angular-mocks.d.ts" />
 
-module Quizzical.App {
+module Quizzical {
 
 
-    class MockData {
+    export class MockData {
         Answers: Answer[] = [];
         Questions: Question[] = [];
         Quizzes: Quiz[] = [];
         Sessions: QuizSession[] = [];
+        Users: User[];
 
         private currentId: number = 1;
 
@@ -24,6 +25,13 @@ module Quizzical.App {
         }
 
         constructor() {
+
+            this.Users = this.generate(10, (id) => {
+                return <User>{
+                    id: 'testuser' + id,
+                    name: 'Test User #' + id,
+                };
+            });
 
             var trueFalseOptions: QuestionOption[] = [
                 { id: 1, description: "True" },
@@ -51,17 +59,27 @@ module Quizzical.App {
                     id: id,
                     quizId: id,
                     connectedUserIds: [],
-                    currentQuestionId: Math.floor(Math.random()*100), 
+                    currentQuestionId: Math.floor(Math.random() * 100),
                 };
-            }); 
+            });
         }
 
 
-        findQuestion(questionId: number) {
+        findQuestion(questionId?: number) {
+            if (!questionId)
+                return this.Questions[0];
+
             return this.Questions.filter(x => x.id == questionId)[0];
         }
         findQuestions(quizId: number) {
             return this.Quizzes.filter(x => x.id == quizId)[0].questions;
+        }
+
+        findAnswer(answerId?: number) {
+            if (!answerId)
+                return this.Answers[0];
+
+            return this.Answers.filter(x => x.id == answerId)[0];
         }
 
         findAnswers(sessionId: number, questionId: number) {
@@ -72,15 +90,28 @@ module Quizzical.App {
             return this.Answers.push(answer);
         }
 
-        findQuiz(quizId: number) {
+        findQuiz(quizId?: number) {
+            if (!quizId)
+                return this.Quizzes[0];
+
             return this.Quizzes.filter(x => x.id == quizId)[0];
         }
 
-        findSession(sessionId: number) {
+        findSession(sessionId?: number) {
+            if (!sessionId)
+                return this.Sessions[0];
+
             return this.Sessions.filter(x => x.id == sessionId)[0];
         }
         findSessions(quizId: number) {
             return this.Sessions.filter(x => x.quizId == quizId)[0];
+        }
+
+        findUser(userId?: string) {
+            if (!userId)
+                return this.Users[0];
+
+            return this.Users.filter(x => x.id == userId)[0];
         }
     }
 
@@ -150,6 +181,7 @@ module Quizzical.App {
 
 
     angular.module('Quizzical.MockData', ['ngMockE2E', 'ngResource'])
+        .service('MockData', MockData)
         .service('MockDataBackend', MockDataBackend)
         .run(['MockDataBackend', backend => { backend.initialize(); }]);
 

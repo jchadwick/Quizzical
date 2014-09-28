@@ -1,8 +1,11 @@
 ﻿/// <reference path="../app/model.ts" />
 /// <reference path="../typings/jasmine/jasmine.d.ts" />
 
-var $location, $scope, $timeout, $httpBackend: ng.IHttpBackendService,
-    createController, StubData;
+var $location,
+    $scope,
+    $timeout,
+    $httpBackend: ng.IHttpBackendService,
+    createController;
 
 beforeEach(module('Quizzical'));
 beforeEach(module('Quizzical.Services'));
@@ -13,8 +16,6 @@ beforeEach(inject(($rootScope, $controller, _$location_, _$timeout_, _$httpBacke
     $location = _$location_;
     $timeout = _$timeout_;
     $scope = $rootScope.$new(); 
-
-    StubData = Quizzical.GenerateStubData();
 
     createController = (name, scope) => {
         var scp = scope || $scope;

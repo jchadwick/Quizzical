@@ -1,6 +1,6 @@
 /// <reference path="../model.ts" />
 /// <reference path="QuizSessionService.ts" />
-/// <reference path="../../testing/StubData.ts" />
+/// <reference path="../mockData.ts" />
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 /// <reference path="../../typings/angularjs/angular-resource.d.ts" />
 /// <reference path="../../typings/angularjs/angular-mocks.d.ts" />
@@ -13,19 +13,18 @@ var $httpBackend: ng.IHttpBackendService;
 module Quizzical {
     'use strict';
 
-    declare var StubData: any;
-
     describe('QuizSessionService', () => {
 
-        var service;
+        var service: IQuizSessionService, mockData: MockData;
 
-        beforeEach(inject((QuizSessionService: IQuizSessionService) => {
+        beforeEach(inject((QuizSessionService: IQuizSessionService, MockData: MockData) => {
             service = QuizSessionService;
+            mockData = MockData;
         }));
 
 
         it('should create new session', (done) => {
-            var quiz = StubData.findQuiz();
+            var quiz = mockData.findQuiz();
 
             $httpBackend.expectPOST(getApiUrl(quiz.id))
                         .respond(<QuizSession>{ quizId: quiz.id });
@@ -42,10 +41,10 @@ module Quizzical {
         xit('should list available sessions for all quizzes', (done) => {
 
             $httpBackend.expectGET('/api/quizzes/sessions/available')
-                        .respond(StubData.sessions);
+                        .respond(mockData.Sessions);
 
             service.list().then(sessions => {
-                expect(sessions).toContainAllItemsIn(StubData.sessions);
+                expect(sessions).toContainAllItemsIn(mockData.Sessions);
                 done();
             });
 
@@ -54,12 +53,12 @@ module Quizzical {
 
 
         xit('should list sessions for a quiz', (done) => {
-            var quiz = StubData.findQuiz();
+            var quiz = mockData.findQuiz();
 
-            $httpBackend.expectGET(getApiUrl(quiz.id)).respond(StubData.sessions);
+            $httpBackend.expectGET(getApiUrl(quiz.id)).respond(mockData.Sessions);
 
-            service.list(quiz.id).then(sessions => {
-                expect(sessions).toContainAllItemsIn(StubData.sessions);
+            service.list().then(sessions => {
+                expect(sessions).toContainAllItemsIn(mockData.Sessions);
                 done();
             });
 
@@ -69,13 +68,12 @@ module Quizzical {
 
         it('should join available session', (done) => {
 
-            var quiz = StubData.findQuiz(),
-                session = StubData.findSessionByQuizId(quiz.id);
+            var session = mockData.findSession();
 
-            $httpBackend.expectPOST(getApiUrl(quiz.id, session.id, 'join'))
+            $httpBackend.expectPOST(getApiUrl(session.quizId, session.id, 'join'))
                 .respond(session);
 
-            service.join(quiz.id, session.id).then(joined => {
+            service.join(session.quizId, session.id).then(joined => {
                 expect(joined.id).toBe(session.id);
                 done();
             });

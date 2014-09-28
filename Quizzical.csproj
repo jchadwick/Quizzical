@@ -85,7 +85,6 @@
     <TypeScriptCompile Include="app\services\QuizSessionService.ts" />
     <TypeScriptCompile Include="app\SessionList\SessionListController.ts" />
     <TypeScriptCompile Include="testing\matchers.ts" />
-    <TypeScriptCompile Include="testing\StubData.ts" />
     <TypeScriptCompile Include="typings\angularjs\angular-mocks.d.ts" />
     <TypeScriptCompile Include="typings\angularjs\angular-resource.d.ts" />
     <TypeScriptCompile Include="typings\angularjs\angular.d.ts" />
