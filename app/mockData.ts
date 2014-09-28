@@ -7,40 +7,51 @@ module Quizzical.App {
 
 
     class MockData {
-        Questions: Question[];
-        Quizzes: Quiz[];
-        Sessions: QuizSession[];
+        Answers: Answer[] = [];
+        Questions: Question[] = [];
+        Quizzes: Quiz[] = [];
+        Sessions: QuizSession[] = [];
+
+        private currentId: number = 1;
+
+        generate(times, create) {
+            var items = [];
+            for (var i = 0; i < times; i++) {
+                var id = (this.currentId += 1);
+                items.push(create(id));
+            }
+            return items;
+        }
 
         constructor() {
-            var id = 1;
 
-            var trueFalseOptions: QuestionOption[] = [{ id: 1, description: "True" }, { id: 2, description: "False" }];
+            var trueFalseOptions: QuestionOption[] = [
+                { id: 1, description: "True" },
+                { id: 2, description: "False" }
+            ];
 
-            var questionCount = 10;
-            this.Questions = [questionCount].map(() => {
+            this.Questions = this.generate(100, (id) => {
                 return <Question>{
-                    id: id += 1,
+                    id: id,
                     description: 'What is ' + id + ' + 200?',
                     options: trueFalseOptions
                 };
             });
 
-            var quizCount = 10;
-            this.Quizzes = [quizCount].map(() => {
+            this.Quizzes = this.generate(10, (id) => {
                 return <Quiz>{
-                    id: id += 1,
+                    id: id,
                     name: 'Test Quiz #' + id,
                     questions: this.Questions,
                 };
             });
 
-            var sessionCount = 10;
-            this.Sessions = [sessionCount].map((idx) => {
+            this.Sessions = this.generate(5, (id) => {
                 return <QuizSession>{
-                    id: id += 1,
-                    quizId: idx,
+                    id: id,
+                    quizId: id,
                     connectedUserIds: [],
-                    currentQuestionId: 0, 
+                    currentQuestionId: Math.floor(Math.random()*100), 
                 };
             }); 
         }
@@ -51,6 +62,14 @@ module Quizzical.App {
         }
         findQuestions(quizId: number) {
             return this.Quizzes.filter(x => x.id == quizId)[0].questions;
+        }
+
+        findAnswers(sessionId: number, questionId: number) {
+            return this.Answers.filter((x: Answer) => x.sessionId == sessionId && x.questionId == questionId);
+        }
+
+        addAnswer(answer: Answer) {
+            return this.Answers.push(answer);
         }
 
         findQuiz(quizId: number) {
@@ -84,29 +103,45 @@ module Quizzical.App {
                 var quizzes = this.mockData.Quizzes;
                 return [200, quizzes, {}];
             });
-            $httpBackend.whenGET(/\/api\/quizzes\/\d+/).respond((method, url) => {
+            $httpBackend.whenGET(/\/api\/quizzes\/\d+$/).respond((method, url) => {
                 var quiz = this.mockData.findQuiz(url.split('/')[3]);
                 return [200, quiz, {}];
             });
 
 
-            $httpBackend.whenGET(/\/api\/quizzes\/\d+\/\/sessions/).respond((method, url) => {
-                var sessions = this.mockData.findSessions(url.split('/')[3]);
-                return [200, sessions, {}];
-            });
-            $httpBackend.whenGET(/\/api\/quizzes\/\d+\/\/sessions\/\d+/).respond((method, url) => {
+            $httpBackend.whenPOST(/^\/api\/quizzes\/\d+\/sessions\/\d+\/join$/).respond((method, url) => {
                 var session = this.mockData.findSession(url.split('/')[5]);
                 return [200, session, {}];
             });
+            $httpBackend.whenGET(/^\/api\/quizzes\/\d+\/sessions\/\d+$/).respond((method, url) => {
+                var session = this.mockData.findSession(url.split('/')[5]);
+                return [200, session, {}];
+            });
+            $httpBackend.whenPOST(/^\/api\/quizzes\/\d+\/sessions\/\d+\/questions\/\d+\/answer$/).respond((method, url, data) => {
+                this.mockData.addAnswer(data);
+                return [200, data, {}];
+            });
+            $httpBackend.whenGET(/^\/api\/quizzes\/\d+\/sessions\/\d+\/questions\/\d+\/answers$/).respond((method, url) => {
+                var answers = this.mockData.findAnswers(url.split('/')[5], url.split('/')[7]);
+                return [200, answers, {}];
+            });
+            $httpBackend.whenGET(/^\/api\/quizzes\/\d+\/sessions$/).respond((method, url) => {
+                var sessions = this.mockData.findSessions(url.split('/')[3]);
+                return [200, sessions, {}];
+            });
+            $httpBackend.whenGET("/api/quizzes/sessions/available").respond((method, url) => {
+                var sessions = this.mockData.Sessions;
+                return [200, sessions, {}];
+            });
 
 
-            $httpBackend.whenGET(/\/api\/quizzes\/\d+\/\/sessions\/\d+\/\/questions/).respond((method, url) => {
+            $httpBackend.whenGET(/\/api\/quizzes\/\d+\/questions$/).respond((method, url) => {
                 var questions = this.mockData.findQuestions(url.split('/')[5]);
                 return [200, questions, {}];
             });
 
-            $httpBackend.whenGET(/\/api\/quizzes\/\d+\/\/sessions\/\d+\/\/questions\/\d+/).respond((method, url) => {
-                var question = this.mockData.findQuestion(url.split('/')[7]);
+            $httpBackend.whenGET(/\/api\/quizzes\/\d+\/questions\/\d+$/).respond((method, url) => {
+                var question = this.mockData.findQuestion(url.split('/')[5]);
                 return [200, question, {}];
             });
 
@@ -114,7 +149,7 @@ module Quizzical.App {
     }
 
 
-    angular.module('Quizzical.Mocks', ['ngMockE2E', 'ngResource'])
+    angular.module('Quizzical.MockData', ['ngMockE2E', 'ngResource'])
         .service('MockDataBackend', MockDataBackend)
         .run(['MockDataBackend', backend => { backend.initialize(); }]);
 

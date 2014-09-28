@@ -21,6 +21,7 @@ module Quizzical {
             answer: Answer = {
                 questionId: questionId,
                 questionOptionId: 42,
+                quizId: quizId,
                 sessionId: sessionId,
                 userId: "testuser",
             };
@@ -47,10 +48,10 @@ module Quizzical {
 
         it('should submit an answer to a question', (done) => {
 
-            $httpBackend.expectPOST(getApiUrl(quizId, sessionId, questionId))
+            $httpBackend.expectPOST(getApiUrl(quizId, sessionId, questionId).replace('answers', 'answer'))
                 .respond(answer);
 
-            service.submit(quizId, answer)
+            service.submit(answer)
                 .then(resp => {
                     expect(resp.questionId).toBe(answer.questionId);
                     expect(resp.questionOptionId).toBe(answer.questionOptionId);

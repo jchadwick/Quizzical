@@ -19,7 +19,7 @@ module.exports = function (config) {
             'bower_components/angular-resource/angular-resource.js',
             'bower_components/angular-mocks/angular-mocks.js',
             'bower_components/angular-ui/build/angular-ui.js',
-            'app/*.js',
+            'app/model.js',
             'app/**/*.js',
             'testing/*.js',
             'app/**/*.spec.js'
@@ -66,7 +66,7 @@ module.exports = function (config) {
         // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
         // - PhantomJS
         // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
-        browsers: ['PhantomJS'],
+        browsers: ['PhantomJS', 'Chrome'],
 
 
         // If browser does not capture in given timeout [ms], kill it

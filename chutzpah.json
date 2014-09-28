@@ -5,7 +5,8 @@
         { "Path": "bower_components/angular-resource/angular-resource.js" },
         { "Path": "bower_components/angular-mocks/angular-mocks.js" },
         { "Path": "bower_components/angular-ui/build/angular-ui.js" },
-        { "Path": "testing", "Include":  "*.js" },
-        { "Path": "app", "Include":  "*.js", "Exclude":  "acceptance.spec.js" }
+        { "Path": "testing", "Include": "*.js" },
+        { "Path": "app", "Include": "**/*.js" },
+        { "Path": "app", "Include": "*.js", "Exclude": "app.js|acceptance.spec.js" }
     ]
 }

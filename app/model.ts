@@ -35,8 +35,8 @@ module Quizzical {
 		id?: number;
 		questionId: number;
 		questionOptionId: number;
+		quizId: number;
         sessionId: number;
-		userId: string;
 	}
 
     export interface AnswersSummary {
@@ -59,4 +59,7 @@ module Quizzical {
 		currentQuestionId: number;
 	}
 
+    angular.module('Quizzical', ['Quizzical.MockData']);
+    angular.module('Quizzical.Services', ['ngResource']);
+    angular.module('Quizzical.UI', ['Quizzical.Services', 'Quizzical']);
 }

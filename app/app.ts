@@ -1,16 +1,22 @@
 module Quizzical.App {
 
-    function config() {
-        // TODO:  App config
-    }
+    angular.module('Quizzical.UI').run(['$log', '$rootScope', 'QuizSessionService',
+        ($log, $scope, sessionService: IQuizSessionService) => {
 
+            $log.info('Initializing session...');
 
-    function init() {
-        // TODO:  App startup
-    }
+            sessionService.list().then((sessions: QuizSession[]) => {
 
+                $log.info('Found ', sessions.length, ' sessions...');
 
-    angular.module('Quizzical', ['Quizzical.Mocks']).config(config).run(init);
-    angular.module('Quizzical.Services', ['ngResource']);
-    angular.module('Quizzical.UI', []);
+                var session: QuizSession = sessions[0];
+                $log.info('Auto-joining session #', session.id);
+
+                sessionService.join(session.quizId, session.id).then(session => {
+                    $log.info('Joined session #', session.id, session);
+                    $scope.session = session;
+                });
+            });
+        }]);
+
 }

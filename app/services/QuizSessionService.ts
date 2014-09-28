@@ -7,7 +7,7 @@ module Quizzical {
 
     export interface IQuizSessionService {
         create(quizId: number): ng.IPromise<QuizSession>;
-        join(id: number): ng.IPromise<QuizSession>;
+        join(quizId: number, sessionId: number): ng.IPromise<QuizSession>;
         list(): ng.IPromise<QuizSession[]>;
     }
 
@@ -37,13 +37,8 @@ module Quizzical {
                 return (<any>QuizSessionData).join({ quizId: quizId, sessionId: sessionId }).$promise;
             },
 
-            list: (quizId?: number): ng.IPromise<QuizSession[]> => {
-                var query =
-                    angular.isDefined(quizId)
-                    ? QuizSessionData.query({ quizId: quizId })
-                    : (<any>QuizSessionData).available();
-
-                return query.$promise;
+            list: (): ng.IPromise<QuizSession[]> => {
+                return (<any>QuizSessionData).available().$promise;
             }
 
         }

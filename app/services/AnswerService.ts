@@ -8,7 +8,7 @@ module Quizzical {
     export interface IAnswerService {
         getAll(quizId: number, questionId: number, sessionId: number): ng.IPromise<Answer[]>;
         getSummary(quizId: number, questionId: number, sessionId: number): ng.IPromise<AnswersSummary>;
-        submit(quizId: number, answer: Quizzical.Answer): ng.IPromise<Answer>;
+        submit(answer: Quizzical.Answer): ng.IPromise<Answer>;
     }
 
 
@@ -20,7 +20,7 @@ module Quizzical {
             $resource<ng.resource.IResource<Answer>>(url,
                 { 'quizId': '@quizId', 'sessionId': '@sessionId', 'questionId': '@questionId', 'answerId': '@answerId' },
                 {
-                    'submit': { method: 'POST', params: { 'quizId': '@quizId', 'sessionId': '@sessionId', 'questionId': '@questionId', 'answerId': '@id' } },
+                    'submit': { method: 'POST', url: url.replace('answers', 'answer'), params: { 'quizId': '@quizId', 'sessionId': '@sessionId', 'questionId': '@questionId', 'answerId': '@id' } },
                     'summary': { method: 'GET', isArray: true, url: url + '/summary', params: { 'quizId': '@quizId', 'sessionId': '@sessionId', 'questionId': '@questionId', 'answerId': '@id' } },
                 }
                 );
@@ -60,8 +60,8 @@ module Quizzical {
                 });
             },
 
-            submit: (quizId: number, answer: Quizzical.Answer): ng.IPromise<Answer> => {
-                return new AnswerData(angular.extend({ quizId: quizId }, answer)).$save();
+            submit: (answer: Quizzical.Answer): ng.IPromise<Answer> => {
+                return (<any>AnswerData).submit(answer).$promise;
             }
         }
     }
