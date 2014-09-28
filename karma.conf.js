@@ -33,6 +33,7 @@ module.exports = function (config) {
         // list of files to exclude
         exclude: [
             'app/acceptance.spec.js',
+            'app/app.js'
         ],
 
 
