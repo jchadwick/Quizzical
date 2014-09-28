@@ -38,24 +38,10 @@ module Quizzical {
         });
 
 
-        xit('should list available sessions for all quizzes', (done) => {
+        it('should list available sessions', (done) => {
 
             $httpBackend.expectGET('/api/quizzes/sessions/available')
                         .respond(mockData.Sessions);
-
-            service.list().then(sessions => {
-                expect(sessions).toContainAllItemsIn(mockData.Sessions);
-                done();
-            });
-
-            $httpBackend.flush();
-        });
-
-
-        xit('should list sessions for a quiz', (done) => {
-            var quiz = mockData.findQuiz();
-
-            $httpBackend.expectGET(getApiUrl(quiz.id)).respond(mockData.Sessions);
 
             service.list().then(sessions => {
                 expect(sessions).toContainAllItemsIn(mockData.Sessions);
