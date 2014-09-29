@@ -37,7 +37,7 @@ module Quizzical {
 
                 $log.debug('Joining session #' + session.id +'...');
 
-                sessionService.join(session.quizId, session.id).then((joined) => {
+                sessionService.join(session.id).then((joined) => {
                     $scope.session = joined;
                     $log.debug('Joined session #' + joined.id);
                 });

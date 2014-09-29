@@ -26,7 +26,7 @@ module Quizzical {
         it('should create new session', (done) => {
             var quiz = mockData.findQuiz();
 
-            $httpBackend.expectPOST(getApiUrl(quiz.id))
+            $httpBackend.expectPOST(getApiUrl())
                         .respond(<QuizSession>{ quizId: quiz.id });
 
             service.create(quiz.id).then(session => {
@@ -40,7 +40,7 @@ module Quizzical {
 
         it('should list available sessions', (done) => {
 
-            $httpBackend.expectGET('/api/quizzes/sessions/available')
+            $httpBackend.expectGET(getApiUrl(null, 'available'))
                         .respond(mockData.Sessions);
 
             service.list().then(sessions => {
@@ -56,10 +56,10 @@ module Quizzical {
 
             var session = mockData.findSession();
 
-            $httpBackend.expectPOST(getApiUrl(session.quizId, session.id, 'join'))
-                .respond(session);
+            $httpBackend.expectPOST(getApiUrl(session.id, 'join'))
+                        .respond(session);
 
-            service.join(session.quizId, session.id).then(joined => {
+            service.join(session.id).then(joined => {
                 expect(joined.id).toBe(session.id);
                 done();
             });
@@ -68,11 +68,9 @@ module Quizzical {
         });
 
 
-        function getApiUrl(quizId?: number, sessionId?: number, action?: string) {
-            var parts : any[] = ['/api/quizzes'];
+        function getApiUrl(sessionId?: number, action?: string) {
+            var parts : any[] = ['/api/sessions'];
 
-            if (quizId) parts.push(quizId);
-            parts.push('sessions');
             if (sessionId) parts.push(sessionId);
             if (action) parts.push(action);
 

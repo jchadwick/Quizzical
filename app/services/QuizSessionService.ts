@@ -7,7 +7,7 @@ module Quizzical {
 
     export interface IQuizSessionService {
         create(quizId: number): ng.IPromise<QuizSession>;
-        join(quizId: number, sessionId: number): ng.IPromise<QuizSession>;
+        join(sessionId: number): ng.IPromise<QuizSession>;
         list(): ng.IPromise<QuizSession[]>;
     }
 
@@ -17,24 +17,23 @@ module Quizzical {
     function QuizSessionService($resource: ng.resource.IResourceService) {
 
         var QuizSessionData =
-            $resource<QuizSession>('/api/quizzes/:quizId/sessions/:sessionId', { 'quizId': '@quizId', 'sessionId': '@sessionId' }, {
-                'available': { method: 'GET', url: '/api/quizzes/sessions/available', isArray: true },
-                'join': { method: 'POST', url: '/api/quizzes/:quizId/sessions/:sessionId/join' },
+            $resource<QuizSession>('/api/sessions/:sessionId', { 'sessionId': '@sessionId' }, {
+                'available': { method: 'GET', url: '/api/sessions/available', isArray: true },
+                'join': { method: 'POST', url: '/api/sessions/:sessionId/join' },
             });
 
 
         return <IQuizSessionService> {
 
             create: (quizId: number): ng.IPromise<QuizSession> => {
-                var session = { id: 1, quizId: quizId, connectedUserIds: [], currentQuestionId: 1 };
+                var session = { quizId: quizId, connectedUserIds: [], currentQuestionId: null };
                 return (<any>QuizSessionData.save(session)).$promise;
             },
 
-            join: (quizId: number, sessionId: number): ng.IPromise<QuizSession> => {
-                if (!angular.isDefined(quizId)) throw 'Invalid Quiz Id';
+            join: (sessionId: number): ng.IPromise<QuizSession> => {
                 if (!angular.isDefined(sessionId)) throw 'Invalid Session Id';
 
-                return (<any>QuizSessionData).join({ quizId: quizId, sessionId: sessionId }).$promise;
+                return (<any>QuizSessionData).join({ sessionId: sessionId }).$promise;
             },
 
             list: (): ng.IPromise<QuizSession[]> => {
