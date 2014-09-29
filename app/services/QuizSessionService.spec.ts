@@ -52,6 +52,23 @@ module Quizzical {
         });
 
 
+        it('should get session by id', (done) => {
+
+            var session = mockData.findSession();
+
+            $httpBackend.expectGET(getApiUrl(session.id))
+                        .respond(session);
+
+            service.getById(session.id).then(result => {
+                expect(result).toBeDefined();
+                expect(result.id).toBe(session.id);
+                done();
+            });
+
+            $httpBackend.flush();
+        });
+
+
         it('should join available session', (done) => {
 
             var session = mockData.findSession();
