@@ -1,22 +1,18 @@
 module Quizzical.App {
 
-    angular.module('Quizzical.UI').run(['$log', '$rootScope', 'QuizSessionService',
-        ($log, $scope, sessionService: IQuizSessionService) => {
+    angular.module('Quizzical.UI').run(['$log', '$rootScope', '$controller',
+        ($log, $scope: SessionListViewModel, $controller: ng.IControllerService) => {
 
-            $log.info('Initializing session...');
+            $log.info('Initializing application...');
 
-            sessionService.list().then((sessions: QuizSession[]) => {
-
-                $log.info('Found ', sessions.length, ' sessions...');
-
-                var session: QuizSession = sessions[0];
-                $log.info('Auto-joining session #', session.id);
-
-                sessionService.join(session.quizId, session.id).then(session => {
-                    $log.info('Joined session #', session.id, session);
-                    $scope.session = session;
-                });
+            $scope.$watch('sessions', () => {
+                if ($scope.sessions) {
+                    // Auto-join the first session (until session-picking is in place)
+                    $scope.join($scope.sessions[0]);
+                }
             });
+
+            $controller(Quizzical.SessionListController, { $scope: $scope });
         }]);
 
 }

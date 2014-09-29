@@ -3,26 +3,54 @@
 
 module Quizzical {
 
-    interface SessionListViewModel {
-        selectedSession: QuizSession;
+    export interface SessionListViewModel extends ng.IScope {
+        session: QuizSession;
         sessions: QuizSession[];
 
-        selectSession(session: QuizSession): void;
+        join(session: QuizSession): void;
+        refresh: () => void;
     }
 
-    class SessionListController {
+    export class SessionListController {
 
-        static $inject = ['scope'];
+        static $inject = ['$log', '$scope', 'QuizSessionService'];
 
-        constructor(viewModel: SessionListViewModel) {
+        constructor(
+            private $log: ng.ILogService,
+            private $scope: SessionListViewModel,
+            private sessionService: IQuizSessionService) {
 
-            viewModel.selectSession = (session: QuizSession) => {
-                viewModel.selectedSession = session;
+            function refreshSessions() {
+                $log.debug('Retrieving session list...');
+                sessionService.list().then((sessions: QuizSession[]) => {
+                    $log.debug('Retrieved ', (sessions && sessions.length), ' sessions');
+                    $scope.sessions = sessions;
+                });
             }
 
+            $scope.join = (session: QuizSession) => {
+
+                if (!session || !session.id) {
+                    $log.warn('Refusing to join invalid session');
+                    return;
+                }
+
+                $log.debug('Joining session #' + session.id +'...');
+
+                sessionService.join(session.quizId, session.id).then((joined) => {
+                    $scope.session = joined;
+                    $log.debug('Joined session #' + joined.id);
+                });
+            }
+
+            $scope.refresh = refreshSessions;
+
+            // Load the list automatically
+            refreshSessions();
         }
 
     }
 
-    angular.module('Quizzical').controller('SessionListController', SessionListController);
+    angular.module('Quizzical.UI')
+        .controller('SessionListController', SessionListController);
 }
