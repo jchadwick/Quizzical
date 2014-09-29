@@ -21,7 +21,8 @@
     "grunt-open": "~0.2.3",
     "grunt-typescript": "~0.3.8",
     "load-grunt-tasks": "~0.6.0",
-    "typescript": "~1.0.1"
+    "typescript": "~1.0.1",
+    "grunt-file-blocks": "~0.3.3"
   },
   "repository": {
     "type": "git",

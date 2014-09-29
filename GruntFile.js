@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
-    var typescriptFiles = ['app/*.ts','app/**/*.ts','testing/*.ts'];
+    var typescriptFiles = ['app/*.ts', 'app/**/*.ts', 'testing/*.ts'];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -19,7 +19,20 @@ module.exports = function (grunt) {
                     port: 3000,
                     hostname: 'localhost',
                     base: './',
-		                livereload: true
+                    livereload: true
+                }
+            }
+        },
+        fileblocks: {
+            options: {
+                removeFiles: true,
+            },
+            'default': {
+                src: 'index.html',
+                blocks: {
+                    'controllers': { src: 'app/**/*Controller.js' },
+                    'directives': { src: 'app/**/*Directive.js' },
+                    'services': { src: 'app/services/*Service.js' },
                 }
             }
         },
@@ -43,12 +56,12 @@ module.exports = function (grunt) {
             }
         },
         watch: {
-        	"static": {
-        		files: [ '**/*.css', '**/*.html', '**/*.js' ],
-        		options: {
-	        		livereload: true
-        		}
-        	}
+            "static": {
+                files: ['**/*.css', '**/*.html', '**/*.js'],
+                options: {
+                    livereload: true
+                }
+            }
         },
         open: {
             dev: {
@@ -75,8 +88,9 @@ module.exports = function (grunt) {
 
     }
 
-    grunt.registerTask('dev-watch', ['typescript', 'concurrent:target']);
-    grunt.registerTask('server', ['typescript', 'connect', 'open', 'concurrent:target']);
-    grunt.registerTask('test', ['typescript', 'karma:travis']);
+    grunt.registerTask('preprocess', ['typescript', 'fileblocks']);
+    grunt.registerTask('dev-watch', ['preprocess', 'concurrent:target']);
+    grunt.registerTask('server', ['preprocess', 'connect', 'open', 'concurrent:target']);
+    grunt.registerTask('test', ['preprocess', 'karma:travis']);
     grunt.registerTask('default', ['server']);
 }
