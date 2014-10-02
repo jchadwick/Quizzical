@@ -22,7 +22,9 @@ module Quizzical {
 
             function refreshSessions() {
                 $log.debug('Retrieving session list...');
+
                 sessionService.list().then((sessions: QuizSession[]) => {
+                    debugger;
                     $log.debug('Retrieved ', (sessions && sessions.length), ' sessions');
                     $scope.sessions = sessions;
                 });

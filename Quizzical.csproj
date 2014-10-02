@@ -74,6 +74,7 @@
     <TypeScriptCompile Include="app\services\AnswerService.spec.ts" />
     <TypeScriptCompile Include="app\services\QuestionService.spec.ts" />
     <TypeScriptCompile Include="app\services\QuizService.spec.ts" />
+    <TypeScriptCompile Include="app\SessionList\SessionListController.spec.ts" />
     <TypeScriptCompile Include="testing\beforeEach.ts" />
     <Content Include="karma.conf.js" />
     <Content Include="chutzpah.json" />
