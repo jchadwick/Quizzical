@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="Quizzical.UI">
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="Quizzical.App">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,48 +22,20 @@
 </head>
 
 <body>
-    <div class="container" ng-controller="QuizSessionController">
+    <div class="container">
         <div class="header">
-            <a href="https://github.com/jchadwick/Quizzical"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+            <h3 class="text-muted pull-left">Quizzical</h3>
             <ul class="nav nav-pills pull-right">
-                <li><a href="#">Sessions</a></li>
-                <li><a href="#">Admin</a></li>
+                <li><a class="btn btn-xx-small btn-info" href="#/sessions">Sessions</a></li>
             </ul>
-            <h3 class="text-muted">Quizzical</h3>
+            <a href="https://github.com/jchadwick/Quizzical"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
         </div>
+    
+        <div class="clearfix"></div>
 
-        <div class="jumbotron">
-            <h3>{{quizName}}</h3>
-            <h2>Question #{{currentQuestion.id}}</h2>
-            <h1>{{currentQuestion.description}}</h1>
-            <p class="description"></p>
-            <hr />
-            <ul class="nav nav-pills">
-                <li ng-repeat="option in currentQuestion.options">
-                    <a class="btn btn-lg btn-default" ng-class="{'btn-primary': option.selected}" ng-click="selectAnswer(option)" href="#" role="button">{{option.description}}</a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="row marketing">
-            <div class="col-lg-6">
-                <h3>Previous Questions</h3>
-                <ul>
-                    <li>2. What is the secret to the universe?</li>
-                    <li>1. What is the secret to the universe?</li>
-                </ul>
-            </div>
-
-            <div class="col-lg-6">
-                <h3>Connected Users</h3>
-                <ul>
-                    <li>Frank Sinatra</li>
-                    <li>Homer Simpson</li>
-                    <li>Malcom Reynolds</li>
-                </ul>
-            </div>
-        </div>
-
+        <div id="main-view" ui-view></div>
+    
+        <div class="clearfix"></div>
         <div class="footer">
             <p>&copy; Jess Chadwick 2014</p>
         </div>
@@ -75,6 +47,7 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-ui/build/angular-ui.js"></script>
+    <script src="bower_components/ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/angular-toastr/dist/angular-toastr.js"></script>
 
     <script src="app/model.js"></script>
@@ -87,16 +60,19 @@
     <!-- endfileblock -->
 
     <!-- fileblock:js controllers -->
-    <script src="app/QuizList/QuizListController.js"></script>
     <script src="app/QuizSession/QuizSessionController.js"></script>
     <script src="app/SessionList/SessionListController.js"></script>
+    <script src="app/Question/QuestionController.js"></script>
+    <script src="app/Question/QuizSessionController.js"></script>
     <!-- endfileblock -->
 
     <!-- fileblock:js directives -->
+    <script src="app/Question/QuestionDirective.js"></script>
+    <script src="app/QuizSession/QuizSessionDirective.js"></script>
     <!-- endfileblock -->
 
     <script src="bower_components/angular-mocks/angular-mocks.js"></script>
-    <script src="app/mockData.js?v=1"></script>
+    <script src="app/mockData.js"></script>
     <script src="app/app.js"></script>
 
     <script src="//localhost:35729/livereload.js"></script>

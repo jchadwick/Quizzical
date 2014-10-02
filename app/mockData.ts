@@ -57,11 +57,19 @@ module Quizzical {
             this.Sessions = this.generate(5, (id) => {
                 return <QuizSession>{
                     id: id,
-                    quizId: id,
-                    connectedUserIds: [],
+                    quizId: this.random(this.Quizzes).id,
+                    connectedUserIds: [this.random(this.Users).id, this.random(this.Users).id+1],
                     currentQuestionId: Math.floor(Math.random() * 100),
                 };
             });
+        }
+
+
+        random<T>(arr: T[]): T {
+            if (!arr || arr.length == 0)
+                return null;
+
+            return arr[0];
         }
 
 
@@ -119,16 +127,21 @@ module Quizzical {
 
     class MockDataBackend {
 
-        static $inject = ['$httpBackend'];
+        static $inject = ['$httpBackend', '$log'];
 
         private mockData: MockData;
 
-        constructor(private $httpBackend: ng.IHttpBackendService) {
+        constructor(private $httpBackend: ng.IHttpBackendService,
+                    private $log: ng.ILogService) {
             this.mockData = new MockData();
         }
 
         initialize() {
+            this.$log.debug('Initializing mock data service calls...');
+
             var $httpBackend = this.$httpBackend;
+
+            $httpBackend.whenGET(/\.html$/).passThrough();
 
             $httpBackend.whenGET('/api/quizzes').respond((method, url) => {
                 var quizzes = this.mockData.Quizzes;
@@ -140,28 +153,28 @@ module Quizzical {
             });
 
 
-            $httpBackend.whenPOST(/^\/api\/quizzes\/\d+\/sessions\/\d+\/join$/).respond((method, url) => {
-                var session = this.mockData.findSession(url.split('/')[5]);
-                return [200, session, {}];
-            });
-            $httpBackend.whenGET(/^\/api\/quizzes\/\d+\/sessions\/\d+$/).respond((method, url) => {
-                var session = this.mockData.findSession(url.split('/')[5]);
-                return [200, session, {}];
-            });
-            $httpBackend.whenPOST(/^\/api\/quizzes\/\d+\/sessions\/\d+\/questions\/\d+\/answer$/).respond((method, url, data) => {
+            $httpBackend.whenPOST(/^\/api\/sessions\/\d+\/questions\/\d+\/answer$/).respond((method, url, data) => {
                 this.mockData.addAnswer(data);
                 return [200, data, {}];
             });
-            $httpBackend.whenGET(/^\/api\/quizzes\/\d+\/sessions\/\d+\/questions\/\d+\/answers$/).respond((method, url) => {
+            $httpBackend.whenGET(/^\/api\/sessions\/\d+\/questions\/\d+\/answers$/).respond((method, url) => {
                 var answers = this.mockData.findAnswers(url.split('/')[5], url.split('/')[7]);
                 return [200, answers, {}];
             });
-            $httpBackend.whenGET(/^\/api\/quizzes\/\d+\/sessions$/).respond((method, url) => {
-                var sessions = this.mockData.findSessions(url.split('/')[3]);
+            $httpBackend.whenGET(/^\/api\/sessions\/available$/).respond((method, url) => {
+                var sessions = this.mockData.Sessions;
                 return [200, sessions, {}];
             });
-            $httpBackend.whenGET("/api/quizzes/sessions/available").respond((method, url) => {
-                var sessions = this.mockData.Sessions;
+            $httpBackend.whenPOST(/^\/api\/sessions\/\d+\/join$/).respond((method, url) => {
+                var session = this.mockData.findSession(url.split('/')[5]);
+                return [200, session, {}];
+            });
+            $httpBackend.whenGET(/^\/api\/sessions\/\d+$/).respond((method, url) => {
+                var session = this.mockData.findSession(url.split('/')[5]);
+                return [200, session, {}];
+            });
+            $httpBackend.whenGET(/^\/api\/sessions$/).respond((method, url) => {
+                var sessions = this.mockData.findSessions(url.split('/')[3]);
                 return [200, sessions, {}];
             });
 

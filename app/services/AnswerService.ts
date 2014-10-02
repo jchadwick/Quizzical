@@ -6,8 +6,8 @@ module Quizzical {
     'use strict';
 
     export interface IAnswerService {
-        getAll(quizId: number, questionId: number, sessionId: number): ng.IPromise<Answer[]>;
-        getSummary(quizId: number, questionId: number, sessionId: number): ng.IPromise<AnswersSummary>;
+        getAll(questionId: number, sessionId: number): ng.IPromise<Answer[]>;
+        getSummary(questionId: number, sessionId: number): ng.IPromise<AnswersSummary>;
         submit(answer: Quizzical.Answer): ng.IPromise<Answer>;
     }
 
@@ -15,25 +15,25 @@ module Quizzical {
     AnswerService.$inject = ['$resource'];
     function AnswerService($resource: ng.resource.IResourceService) {
 
-        var url = '/api/quizzes/:quizId/sessions/:sessionId/questions/:questionId/answers/:answerId';
+        var url = '/api/sessions/:sessionId/questions/:questionId/answers/:answerId';
         var AnswerData =
             $resource<ng.resource.IResource<Answer>>(url,
-                { 'quizId': '@quizId', 'sessionId': '@sessionId', 'questionId': '@questionId', 'answerId': '@answerId' },
+                { 'sessionId': '@sessionId', 'questionId': '@questionId', 'answerId': '@answerId' },
                 {
                     'submit': { method: 'POST', url: url.replace('answers', 'answer'), params: { 'quizId': '@quizId', 'sessionId': '@sessionId', 'questionId': '@questionId', 'answerId': '@id' } },
                     'summary': { method: 'GET', isArray: true, url: url + '/summary', params: { 'quizId': '@quizId', 'sessionId': '@sessionId', 'questionId': '@questionId', 'answerId': '@id' } },
                 }
-                );
+            );
 
 
         return <IAnswerService> {
 
-            getAll: (quizId: number, questionId: number, sessionId: number): ng.IPromise<Answer[]> => {
-                return (<any>AnswerData.query({ quizId: quizId, questionId: questionId, sessionId: sessionId })).$promise;
+            getAll: (questionId: number, sessionId: number): ng.IPromise<Answer[]> => {
+                return (<any>AnswerData.query({ questionId: questionId, sessionId: sessionId })).$promise;
             },
 
-            getSummary: (quizId: number, questionId: number, sessionId: number): ng.IPromise<AnswersSummary> => {
-                var allAnswersRequest = (<any>AnswerData).summary({ quizId: quizId, questionId: questionId, sessionId: sessionId }).$promise;
+            getSummary: (questionId: number, sessionId: number): ng.IPromise<AnswersSummary> => {
+                var allAnswersRequest = (<any>AnswerData).summary({ questionId: questionId, sessionId: sessionId }).$promise;
 
                 return allAnswersRequest.then(answers => {
 
@@ -52,7 +52,6 @@ module Quizzical {
                     });
 
                     return <AnswersSummary> {
-                        quizId: quizId,
                         questionId: questionId,
                         sessionId: sessionId,
                         answers: summaries,

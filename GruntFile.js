@@ -7,9 +7,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         concurrent: {
             target: {
-                options: {
-                    logConcurrentOutput: true
-                },
+                options: { logConcurrentOutput: true },
                 tasks: ['karma:unit', 'watch']
             }
         },

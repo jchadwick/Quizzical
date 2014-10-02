@@ -55,6 +55,9 @@
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
     <Content Include="app\.gitignore" />
+    <Content Include="app\Question\Question.tmpl.html" />
+    <Content Include="app\QuizSession\QuizSession.tmpl.html" />
+    <Content Include="app\SessionList\SessionList.tmpl.html" />
     <Content Include="bower.json" />
     <Content Include="GruntFile.js" />
     <Content Include="index.html" />
@@ -64,6 +67,9 @@
     <Content Include="Procfile" />
     <TypeScriptCompile Include="app\acceptance.spec.ts" />
     <TypeScriptCompile Include="app\mockData.ts" />
+    <TypeScriptCompile Include="app\Question\QuestionDirective.ts" />
+    <TypeScriptCompile Include="app\Question\QuestionController.ts" />
+    <TypeScriptCompile Include="app\QuizSession\QuizSessionDirective.ts" />
     <TypeScriptCompile Include="app\services\AnswerService.ts" />
     <TypeScriptCompile Include="app\services\AnswerService.spec.ts" />
     <TypeScriptCompile Include="app\services\QuestionService.spec.ts" />
@@ -77,7 +83,6 @@
   <ItemGroup>
     <TypeScriptCompile Include="app\app.ts" />
     <TypeScriptCompile Include="app\model.ts" />
-    <TypeScriptCompile Include="app\QuizList\QuizListController.ts" />
     <TypeScriptCompile Include="app\QuizSession\QuizSessionController.ts" />
     <TypeScriptCompile Include="app\services\QuestionService.ts" />
     <TypeScriptCompile Include="app\services\QuizService.ts" />

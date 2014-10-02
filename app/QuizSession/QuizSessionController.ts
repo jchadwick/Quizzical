@@ -4,130 +4,69 @@
 module Quizzical {
     'use strict';
 
-    interface QuizSessionViewModel extends ng.IScope {
-        session: QuizSession;
-        quiz: Quiz;
-        currentQuestion: QuestionViewModel;
-        currentQuestionIndex: number;
+    interface ConnectedUserViewModel extends User {
+    }
 
+    export interface QuizSessionViewModel extends ng.IScope {
+        sessionId: number;
+        quizId: number;
+        questionId?: number;
         quizName: string;
         totalQuestions: number;
 
-        selectAnswer(option: QuestionOptionViewModel): void;
+        connectedUsers: User[];
+
+        quiz: Quiz;
     }
 
-    interface QuestionOptionViewModel extends QuestionOption {
-        selected: boolean;
-    }
+    export class QuizSessionController {
 
-    class QuestionViewModel {
-        id: number;
-        description: string;
-        extendedDescription: string;
-        questionType: QuestionType;
-        options: QuestionOptionViewModel[];
-        selectedOptionId: number;
+        static $inject = ['$log', '$scope', 'QuizService', 'QuizSessionService' ];
 
-        answerSubmitted: boolean;
+        constructor(
+            private $log: ng.ILogService,
+            private $scope: QuizSessionViewModel,
+            private quizService: IQuizService,
+            private sessionService: IQuizSessionService) {
 
-        constructor(question: Question) {
-            this.id = question.id;
-            this.description = question.description;
-            this.extendedDescription = question.extendedDescription;
-            this.options = <QuestionOptionViewModel[]>question.options;
-        }
+            $log.debug('[QuizSessionController] Init');
 
-        hasExtendedDescription(): boolean {
-            return !!this.extendedDescription;
-        }
+            $scope.connectedUsers = [];
 
-        hasOptions(): boolean {
-            return this.options && this.options.length > 0;
-        }
-
-        answerIsBeingSubmitted(): boolean {
-            return this.selectedOptionId && !this.answerSubmitted;
-        }
-
-        selectAnswer(option: QuestionOptionViewModel) {
-
-            if (!option) {
-                this.selectedOptionId = null;
+            if (!$scope.sessionId) {
+                $log.warn('[QuizSessionController] Invalid Session ID');
                 return;
             }
 
-            for (var i = 0; i < this.options.length; i++) {
-                this.options[i].selected = false;
+            if ($scope.quizId) {
+                $log.debug('[QuizSessionController] Quiz ID set on scope...');
+                loadQuiz();
+            } else {
+                $log.debug('[QuizSessionController] No Quiz ID set on scope - loading session to get quiz ID...');
+
+                sessionService.getById($scope.sessionId).then((session: QuizSession) => {
+                    $scope.quizId = session.quizId;
+                    $scope.connectedUsers = session.connectedUserIds.map((id) => <ConnectedUserViewModel>{id: id, name: id});
+                    loadQuiz();
+                });
             }
 
-            option.selected = true;
-            this.selectedOptionId = option.id;
-
-            console.log('Selected answer ', option);
-        }
-    }
-
-    class QuizSessionController {
-
-        static $inject = [ '$scope', 'QuizService', 'QuestionService', 'AnswerService' ];
-
-        constructor(
-            private $scope: QuizSessionViewModel,
-            private quizService: IQuizService,
-            private questionService: IQuestionService,
-            private answerService: IAnswerService) {
-
-
-            $scope.selectAnswer = (option) => {
-                $scope.currentQuestion.selectAnswer(option);
-            }
-
-
-            $scope.$watch('session', () => {
-                if (!$scope.session)
-                    return;
-
-                quizService.getById($scope.session.quizId).then((quiz: Quiz) => {
+            function loadQuiz() {
+                $log.debug('[QuizSessionController] Loading quiz '+$scope.quizId+'...');
+                quizService.getById($scope.quizId).then((quiz: Quiz) => {
+                    $log.debug('[QuizSessionController] Loaded quiz: ', quiz);
                     $scope.quiz = quiz;
                     $scope.quizName = quiz ? quiz.name : '';
                     $scope.totalQuestions = (quiz && quiz.questions) ? quiz.questions.length : 0;
+
+                    $scope.questionId = 20;
                 });
-            });
+            }
 
-            $scope.$watch('session.currentQuestionId', () => {
-                var session = $scope.session;
-
-                if (!session || !session.currentQuestionId)
-                    return;
-
-                console.log('Loading question #', session.currentQuestionId);
-
-                questionService.getById(session.quizId, session.currentQuestionId).then((question: Question) => {
-                    console.log('Loaded question', question);
-                    $scope.currentQuestion = new QuestionViewModel(question);
-                });
-            });
-
-            $scope.$watch('currentQuestion.selectedOptionId', () => {
-                var question = $scope.currentQuestion,
-                    session = $scope.session;
-
-                if (!question || !question.selectedOptionId)
-                    return;
-
-                question.answerSubmitted = false;
-
-                answerService.submit(<Answer>{
-                    questionId: session.currentQuestionId,
-                    questionOptionId: question.selectedOptionId,
-                    quizId: session.quizId,
-                    sessionId: session.id,
-                }).then(() => {
-                    question.answerSubmitted = true;
-                });
+            $scope.$on('question.changed', (args, data) => {
+                $log.debug('[QuizSessionController] question.changed: ' + data.questionId);
+                $scope.questionId = data.questionId;
             });
         }
     }
-
-    angular.module('Quizzical.UI').controller('QuizSessionController', QuizSessionController);
 }

@@ -1,0 +1,8 @@
+﻿<h3>Available Sessions</h3>
+<ul>
+    <li ng-repeat="session in sessions">
+        <a href="#" ng-click="join(session)">Session #{{session.id}}</a>
+    </li>
+</ul>
+
+<button class="btn btn-info" ng-click="refresh()">Refresh</button>

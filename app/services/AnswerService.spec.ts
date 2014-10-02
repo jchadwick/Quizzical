@@ -14,13 +14,11 @@ module Quizzical {
     describe('AnswerService', () => {
 
         var service: IAnswerService,
-            quizId: number = 123,
             sessionId: number = 200,
             questionId: number = 456,
             answer: Answer = {
                 questionId: questionId,
                 questionOptionId: 42,
-                quizId: quizId,
                 sessionId: sessionId,
                 userId: "testuser",
             };
@@ -32,11 +30,10 @@ module Quizzical {
 
         it('should get all answers for a question in a session', (done) => {
 
-            expect(quizId).toBeDefined();
-            $httpBackend.expectGET(getApiUrl(quizId, sessionId, questionId))
+            $httpBackend.expectGET(getApiUrl(sessionId, questionId))
                 .respond([answer]);
 
-            service.getAll(quizId, questionId, sessionId).then(resp => {
+            service.getAll(questionId, sessionId).then(resp => {
                 expect(resp[0].questionId).toBe(answer.questionId);
                 expect(resp[0].questionOptionId).toBe(answer.questionOptionId);
                 done();
@@ -47,7 +44,7 @@ module Quizzical {
 
         it('should submit an answer to a question', (done) => {
 
-            $httpBackend.expectPOST(getApiUrl(quizId, sessionId, questionId).replace('answers', 'answer'))
+            $httpBackend.expectPOST(getApiUrl(sessionId, questionId).replace('answers', 'answer'))
                 .respond(answer);
 
             service.submit(answer)
@@ -68,10 +65,10 @@ module Quizzical {
                 angular.extend(angular.copy(answer), { questionOptionId: 2 }),
             ];
 
-            $httpBackend.expectGET(getApiUrl(quizId, sessionId, questionId, 'summary'))
+            $httpBackend.expectGET(getApiUrl(sessionId, questionId, 'summary'))
                 .respond(answers);
 
-            service.getSummary(quizId, questionId, sessionId)
+            service.getSummary(questionId, sessionId)
                 .then((resp: AnswersSummary) => {
                     var option1Summary: AnswerSummary = resp.answers.filter((a) => a.questionOptionId == 1)[0];
                     var option2Summary: AnswerSummary = resp.answers.filter((a) => a.questionOptionId == 2)[0];
@@ -89,11 +86,9 @@ module Quizzical {
         });
 
 
-        function getApiUrl(quizId?: number, sessionId?: number, questionId?: number, action?: string) {
-            var parts: any[] = ['/api/quizzes'];
+        function getApiUrl(sessionId?: number, questionId?: number, action?: string) {
+            var parts: any[] = ['/api/sessions'];
 
-            if (quizId) parts.push(quizId);
-            parts.push('sessions');
             if (sessionId) parts.push(sessionId);
             parts.push('questions');
             if (questionId) parts.push(questionId);

@@ -35,7 +35,6 @@ module Quizzical {
 		id?: number;
 		questionId: number;
 		questionOptionId: number;
-		quizId: number;
         sessionId: number;
 	}
 
