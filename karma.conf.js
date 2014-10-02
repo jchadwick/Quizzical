@@ -39,15 +39,17 @@ module.exports = function (config) {
 
         // test results reporter to use
         // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-        reporters: ['progress', 'growl', 'coverage'],
+        reporters: ['progress', 'growl'],
 
         preprocessors: {
             'app/**/!(*spec|mockData).js': ['coverage'],
         },
 
-        coverageReporters: {
-            type : 'html',
-            dir : 'coverage/'
+        coverageReporter: {
+            reporters: [
+                { type: 'html', dir: 'coverage/' },
+                { type: 'text-summary' }
+            ]
         },
 
         // web server port

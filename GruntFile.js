@@ -35,6 +35,9 @@ module.exports = function (grunt) {
             }
         },
         karma: {
+            options: {
+                reporters: ['progress', 'growl']
+            },
             unit: {
                 configFile: 'karma.conf.js'
             },
@@ -84,6 +87,12 @@ module.exports = function (grunt) {
                 grunt.config('typescript.all.src', filepath);
         });
 
+    }
+
+    if (grunt.option('with-coverage')) {
+        var rptrs = grunt.config('karma.options.reporters');
+        rptrs.push('coverage');
+        grunt.config('karma.options.reporters', rptrs);
     }
 
     grunt.registerTask('preprocess', ['typescript', 'fileblocks']);
