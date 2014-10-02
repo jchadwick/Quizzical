@@ -37,6 +37,10 @@ module Quizzical {
             $httpBackend.flush();
         });
 
+        it('should NOT create new session given an invalid quiz id', () => {
+            expect(() => service.create(null)).toThrow('Invalid Quiz Id');
+        });
+
 
         it('should list available sessions', (done) => {
 
@@ -68,6 +72,11 @@ module Quizzical {
             $httpBackend.flush();
         });
 
+        it('should NOT get session given an invalid session id', () => {
+            expect(() => service.getById(null)).toThrow('Invalid Session Id');
+        });
+
+
 
         it('should join available session', (done) => {
 
@@ -82,6 +91,10 @@ module Quizzical {
             });
 
             $httpBackend.flush();
+        });
+
+        it('should NOT join available session given an invalid session id', () => {
+            expect(() => service.join(null)).toThrow('Invalid Session Id');
         });
 
 

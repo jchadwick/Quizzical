@@ -27,18 +27,23 @@ module Quizzical {
         return <IQuizSessionService> {
 
             create: (quizId: number): ng.IPromise<QuizSession> => {
+                if (!quizId)
+                    throw 'Invalid Quiz Id';
+
                 var session = { quizId: quizId, connectedUserIds: [], currentQuestionId: null };
                 return (<any>QuizSessionData.save(session)).$promise;
             },
 
             getById(sessionId: number): ng.IPromise<QuizSession> {
-                if (!angular.isDefined(sessionId)) throw 'Invalid Session Id';
+                if (!sessionId)
+                    throw 'Invalid Session Id';
 
-                return new QuizSessionData({sessionId: sessionId}).$get();
+                return new QuizSessionData({ sessionId: sessionId }).$get();
             },
 
             join: (sessionId: number): ng.IPromise<QuizSession> => {
-                if (!angular.isDefined(sessionId)) throw 'Invalid Session Id';
+                if (!sessionId)
+                    throw 'Invalid Session Id';
 
                 return (<any>QuizSessionData).join({ sessionId: sessionId }).$promise;
             },
