@@ -16,9 +16,9 @@ module Quizzical {
         options: QuestionOptionViewModel[];
         selectedOption: QuestionOptionViewModel;
         answerSubmitted: boolean;
-        canSelectAnswer: boolean;
 
         answerIsBeingSubmitted(): boolean;
+        canSelectAnswer(): boolean;
         hasExtendedDescription(): boolean;
         hasOptions(): boolean;
         selectAnswer(option: QuestionOptionViewModel): void;
@@ -37,7 +37,9 @@ module Quizzical {
 
             $log.debug('[QuestionController] Init');
 
-            $scope.canSelectAnswer = true;
+            $scope.canSelectAnswer = (): boolean => {
+                return !$scope.answerSubmitted;
+            };
 
             $scope.hasExtendedDescription = (): boolean => {
                 return !!$scope.extendedDescription;
@@ -54,7 +56,6 @@ module Quizzical {
             $scope.selectAnswer = (option: QuestionOptionViewModel) => {
                 if (!option || !option.id) {
                     $scope.selectedOption = null;
-                    $scope.canSelectAnswer = true;
                     return;
                 }
 
@@ -65,7 +66,6 @@ module Quizzical {
                 option.selected = true;
                 $scope.selectedOption = option;
                 $scope.answerSubmitted = false;
-                $scope.canSelectAnswer = false;
 
                 $log.debug('Submitting answer: ', option.description, '...');
 
@@ -81,7 +81,6 @@ module Quizzical {
                     option.selected = false;
                     $scope.selectedOption = null;
                     $scope.answerSubmitted = false;
-                    $scope.canSelectAnswer = true;
                 });
             };
 

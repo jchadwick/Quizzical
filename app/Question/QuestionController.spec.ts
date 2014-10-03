@@ -64,6 +64,27 @@ module Quizzical {
             expect($scope.description).toBe(expectedDescription);
         });
 
+
+        it('should NOT allow submission of an invalid answer', () => {
+
+            var question = { id: 123, options: [{}] };
+
+            (<jasmine.Spy>questionService.getById).and.callFake(() => $q.when(question));
+
+            createController({ questionId: question.id, sessionId: 456 });
+
+            $scope.selectAnswer(<any>{ id: 0 });
+            $scope.$apply();
+
+            expect(answerService.submit).not.toHaveBeenCalled();
+
+
+            $scope.selectAnswer(null);
+            $scope.$apply();
+
+            expect(answerService.submit).not.toHaveBeenCalled();
+        });
+
         it('should submit the answer when an option is selected', () => {
             var option: QuestionOptionViewModel = { id: 1, description: 'Twerk', selected: true },
                 question = { id: 123, options: [option]};
@@ -83,24 +104,26 @@ module Quizzical {
             expect(answer.questionOptionId).toBe(option.id);
         });
 
-        it('should NOT submit an invalid answer', () => {
+        it('should be able to submit an answer when no answer has been submitted', () => {
+            (<jasmine.Spy>questionService.getById).and.callFake(() => $q.when({ id: 123, options: [] }));
+            createController({ questionId: 123, sessionId: 456 });
 
-            var question = { id: 123, options: [{}] };
+            expect($scope.canSelectAnswer()).toBeTruthy();
+        });
+
+        it('should not be able to submit another answer after the first one has been submitted', () => {
+            var option: QuestionOptionViewModel = { id: 1, description: 'Twerk', selected: true },
+                question = { id: 123, options: [option]};
 
             (<jasmine.Spy>questionService.getById).and.callFake(() => $q.when(question));
+            (<jasmine.Spy>answerService.submit).and.callFake(() => $q.when());
 
             createController({ questionId: question.id, sessionId: 456 });
 
-            $scope.selectAnswer(<any>{id:0});
+            $scope.selectAnswer(option);
             $scope.$apply();
 
-            expect(answerService.submit).not.toHaveBeenCalled();
-
-
-            $scope.selectAnswer(null);
-            $scope.$apply();
-
-            expect(answerService.submit).not.toHaveBeenCalled();
+            expect($scope.canSelectAnswer()).toBeFalsy();
         });
 
 
