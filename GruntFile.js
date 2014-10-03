@@ -63,7 +63,7 @@ module.exports = function (grunt) {
         },
         watch: {
             "static": {
-                files: ['**/*.css', '**/*.html', '**/*.js'],
+                files: ['app/**\.(js|html|css)'],
                 options: {
                     livereload: true
                 }
