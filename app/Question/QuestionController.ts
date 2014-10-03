@@ -14,8 +14,9 @@ module Quizzical {
         sessionId: number;
 
         options: QuestionOptionViewModel[];
-        selectedOptionId: number;
+        selectedOption: QuestionOptionViewModel;
         answerSubmitted: boolean;
+        canSelectAnswer: boolean;
 
         answerIsBeingSubmitted(): boolean;
         hasExtendedDescription(): boolean;
@@ -36,6 +37,8 @@ module Quizzical {
 
             $log.debug('[QuestionController] Init');
 
+            $scope.canSelectAnswer = true;
+
             $scope.hasExtendedDescription = (): boolean => {
                 return !!$scope.extendedDescription;
             }
@@ -45,12 +48,13 @@ module Quizzical {
             }
 
             $scope.answerIsBeingSubmitted = (): boolean => {
-                return $scope.selectedOptionId && !$scope.answerSubmitted;
+                return $scope.selectedOption && !$scope.answerSubmitted;
             }
 
             $scope.selectAnswer = (option: QuestionOptionViewModel) => {
-                if (!option) {
-                    $scope.selectedOptionId = null;
+                if (!option || !option.id) {
+                    $scope.selectedOption = null;
+                    $scope.canSelectAnswer = true;
                     return;
                 }
 
@@ -59,26 +63,27 @@ module Quizzical {
                 }
 
                 option.selected = true;
-                $scope.selectedOptionId = option.id;
-                $log.debug('Selected answer: ', option.description);
-            }
-
-
-            $scope.$watch('selectedOptionId', () => {
-
-                if (!$scope.selectedOptionId)
-                    return;
-
+                $scope.selectedOption = option;
                 $scope.answerSubmitted = false;
+                $scope.canSelectAnswer = false;
+
+                $log.debug('Submitting answer: ', option.description, '...');
 
                 answerService.submit(<Answer>{
                     questionId: $scope.questionId,
-                    questionOptionId: $scope.selectedOptionId,
+                    questionOptionId: option.id,
                     sessionId: $scope.sessionId,
                 }).then(() => {
                     $scope.answerSubmitted = true;
+                    $log.info('Submitted answer: ', option.description);
+                }, (ex) => {
+                    $log.warn('Failed to submit answer!  ', ex);
+                    option.selected = false;
+                    $scope.selectedOption = null;
+                    $scope.answerSubmitted = false;
+                    $scope.canSelectAnswer = true;
                 });
-            });
+            };
 
 
             function loadQuestion() {

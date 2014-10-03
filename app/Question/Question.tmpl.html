@@ -5,7 +5,10 @@
 <ul class="nav nav-pills">
     <li ng-repeat="option in options">
         <button class="btn btn-lg btn-default" role="button"
-           ng-class="{'btn-primary': option.selected}"
-           ng-click="selectAnswer(option)">{{option.description}}</button>
+                ng-disable="!canSelectAnswer"
+                ng-class="{'btn-primary': option.selected}"
+                ng-click="selectAnswer(option)">
+            {{option.description}}
+        </button>
     </li>
 </ul>

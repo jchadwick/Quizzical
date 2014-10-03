@@ -46,7 +46,13 @@ module Quizzical {
 
                 sessionService.getById($scope.sessionId).then((session: QuizSession) => {
                     $scope.quizId = session.quizId;
-                    $scope.connectedUsers = session.connectedUserIds.map((id) => <ConnectedUserViewModel>{id: id, name: id});
+
+                    // TODO: Lookup usernames
+                    var users = (session.connectedUserIds || []).map(
+                        (id) => <ConnectedUserViewModel>{ id: id, name: id });
+
+                    angular.copy(users, $scope.connectedUsers);
+
                     loadQuiz();
                 });
             }
@@ -58,8 +64,6 @@ module Quizzical {
                     $scope.quiz = quiz;
                     $scope.quizName = quiz ? quiz.name : '';
                     $scope.totalQuestions = (quiz && quiz.questions) ? quiz.questions.length : 0;
-
-                    $scope.questionId = 20;
                 });
             }
 
@@ -69,4 +73,6 @@ module Quizzical {
             });
         }
     }
+
+    angular.module('Quizzical.UI').controller('QuizSessionController', QuizSessionController);
 }

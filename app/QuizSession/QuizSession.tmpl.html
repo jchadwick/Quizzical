@@ -3,6 +3,7 @@
 
     <div ng-if="!questionId">
         <strong>Waiting for question...</strong>
+        <button ng-click="$emit('question.changed', { questionId: 20 })">Change Question</button>
     </div>
 
     <div ng-include="'/app/Question/Question.tmpl.html'" ng-controller="QuestionController"></div>

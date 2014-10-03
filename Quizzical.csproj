@@ -69,6 +69,7 @@
     <TypeScriptCompile Include="app\mockData.ts" />
     <TypeScriptCompile Include="app\Question\QuestionDirective.ts" />
     <TypeScriptCompile Include="app\Question\QuestionController.ts" />
+    <TypeScriptCompile Include="app\QuizSession\QuizSessionController.spec.ts" />
     <TypeScriptCompile Include="app\QuizSession\QuizSessionDirective.ts" />
     <TypeScriptCompile Include="app\services\AnswerService.ts" />
     <TypeScriptCompile Include="app\services\AnswerService.spec.ts" />
