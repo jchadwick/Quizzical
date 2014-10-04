@@ -47,14 +47,33 @@ module Quizzical {
                 sessionService.getById($scope.sessionId).then((session: QuizSession) => {
                     $scope.quizId = session.quizId;
 
-                    // TODO: Lookup usernames
-                    var users = (session.connectedUserIds || []).map(
-                        (id) => <ConnectedUserViewModel>{ id: id, name: id });
-
-                    angular.copy(users, $scope.connectedUsers);
+                    (session.connectedUserIds || []).forEach(addConnectedUser);
 
                     loadQuiz();
                 });
+            }
+
+            function getConnectedUser(userId: string) {
+                var users = $scope.connectedUsers.filter(u => u.id == userId);
+                return users.length ? users[0] : null;
+            }
+
+            function removeConnectedUser(userId: string) {
+                var user = getConnectedUser(userId),
+                    index = $scope.connectedUsers.indexOf(user);
+
+                if (index) {
+                    $scope.connectedUsers.splice(index, 1);
+                }
+            }
+
+            function addConnectedUser(userId: string) {
+                var user = getConnectedUser(userId);
+
+                if (user) return;
+
+                var username = userId;  // TODO: Fetch username
+                $scope.connectedUsers.push(<ConnectedUserViewModel>{ id: userId, name: username });
             }
 
             function loadQuiz() {
@@ -69,9 +88,15 @@ module Quizzical {
             }
 
             $scope.$on('question.changed', (args, data) => {
-                $log.debug('[QuizSessionController] question.changed: ' + data.questionId);
                 $scope.questionId = data.questionId;
                 if(!$scope.$$phase) $scope.$apply();
+            });
+
+            $scope.$on('user.connected', (args, data) => {
+                addConnectedUser(data.userId);
+            });
+            $scope.$on('user.disconnected', (args, data) => {
+                removeConnectedUser(data.userId);
             });
         }
     }

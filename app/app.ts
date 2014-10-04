@@ -16,14 +16,14 @@ module Quizzical.App {
                 controller: ($scope, $stateParams) => {
                     $scope.sessionId = $stateParams.sessionId;
                 }
-            })
+            });
 
     }
 
     angular.module('Quizzical.App', ['Quizzical.Services', 'Quizzical', 'Quizzical.UI', 'ui.router'])
         .config(routing)
         .run(['$log', '$rootScope', '$location', '$controller',
-        ($log, $scope: ng.IScope, $location: ng.ILocationService, $controller: ng.IControllerService) => {
+        ($log, $scope: ng.IScope, $location: ng.ILocationService) => {
 
             $log.info('Initializing application...');
 
@@ -32,6 +32,18 @@ module Quizzical.App {
                 $location.path(['/sessions', data.sessionId].join('/'));
             });
 
+            var socket = io();
+
+            rebroadcast('question.changed');
+            rebroadcast('user.connected');
+            rebroadcast('user.disconnected');
+
+            function rebroadcast(name) {
+                socket.on(name, data => {
+                    $log.debug('[SERVER] ', name, data);
+                    angular.element('body').scope().$broadcast(name, data);
+                });
+            }
         }]);
 
 }

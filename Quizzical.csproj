@@ -62,13 +62,20 @@
     <Content Include="GruntFile.js" />
     <Content Include="index.html" />
     <Content Include="package.json" />
-    <Content Include="server.js" />
+    <TypeScriptCompile Include="server.ts" />
+    <Content Include="site.css">
+      <DependentUpon>site.less</DependentUpon>
+    </Content>
+    <Content Include="site.min.css">
+      <DependentUpon>site.css</DependentUpon>
+    </Content>
     <Content Include="testing\.gitignore" />
     <Content Include="Procfile" />
     <TypeScriptCompile Include="app\acceptance.spec.ts" />
     <TypeScriptCompile Include="app\mockData.ts" />
     <TypeScriptCompile Include="app\Question\QuestionDirective.ts" />
     <TypeScriptCompile Include="app\Question\QuestionController.ts" />
+    <TypeScriptCompile Include="app\Question\QuestionController.spec.ts" />
     <TypeScriptCompile Include="app\QuizSession\QuizSessionController.spec.ts" />
     <TypeScriptCompile Include="app\QuizSession\QuizSessionDirective.ts" />
     <TypeScriptCompile Include="app\services\AnswerService.ts" />
@@ -110,5 +117,16 @@
   <ItemGroup>
     <Folder Include="typings\custom\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="site.less" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="site.css.map">
+      <DependentUpon>site.css</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <TypeScriptModuleKind>amd</TypeScriptModuleKind>
+  </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
 </Project>
