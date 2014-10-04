@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
-    var typescriptFiles = ['*.ts','app/*.ts', 'app/**/*.ts', 'testing/*.ts'];
+    var typescriptFiles = ['app/**.ts', 'server/**.ts', 'testing/**.ts'];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -26,11 +26,12 @@ module.exports = function (grunt) {
                 removeFiles: true,
             },
             'default': {
-                src: 'index.html',
+                options: { cwd: 'app/' },
+                src: 'app/index.html',
                 blocks: {
-                    'controllers': { src: 'app/**/*Controller.js' },
-                    'directives': { src: 'app/**/*Directive.js' },
-                    'services': { src: 'app/services/*Service.js' },
+                    'controllers':  { src: '**/*Controller.js' },
+                    'directives':   { src: '**/*Directive.js' },
+                    'services':     { src: 'services/*Service.js' },
                 }
             }
         },
@@ -73,7 +74,7 @@ module.exports = function (grunt) {
         },
         watch: {
             "static": {
-                files: ['index.html', 'app/**/*.js', 'app/**/*.html', 'app/**/*.css', '**/*.less'],
+                files: ['app/**.js', 'app/**.html', 'app/**.css'],
                 options: {
                     livereload: true
                 }
