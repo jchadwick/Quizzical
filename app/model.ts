@@ -1,3 +1,5 @@
+/// <reference path="../typings/angularjs/angular.d.ts" />
+
 module Quizzical {
 
 	export interface User {
