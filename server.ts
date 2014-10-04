@@ -1,4 +1,4 @@
-/// <reference path="../app/model.ts" />
+/// <reference path="app/model.ts" />
 declare var require, __dirname, process;
 
 var express = require('express'),
@@ -12,8 +12,9 @@ var app = express(),
 var connectedUsers = [];
 
 
-app.use(express.static(__dirname + '/../app'));
-app.use('/bower_components', express.static(__dirname+'/../bower_components'));
+app.use(express.static(__dirname + '/app'));
+app.use('/app', express.static(__dirname + '/app'));
+app.use('/bower_components', express.static(__dirname+'/bower_components'));
 
 
 var router = express.Router(); 
@@ -47,7 +48,7 @@ io.on('connection', socket => {
 });
 
 
-var port = process.env.port || 3000;
+var port = process.env.PORT || 3000;
 server.listen(port, () => {
     console.log('listening on *:' + port);
 });
