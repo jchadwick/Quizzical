@@ -58,7 +58,8 @@ module Quizzical {
             }
 
             function loadQuiz() {
-                $log.debug('[QuizSessionController] Loading quiz '+$scope.quizId+'...');
+                $log.debug('[QuizSessionController] Loading quiz ' + $scope.quizId + '...');
+
                 quizService.getById($scope.quizId).then((quiz: Quiz) => {
                     $log.debug('[QuizSessionController] Loaded quiz: ', quiz);
                     $scope.quiz = quiz;
@@ -70,6 +71,7 @@ module Quizzical {
             $scope.$on('question.changed', (args, data) => {
                 $log.debug('[QuizSessionController] question.changed: ' + data.questionId);
                 $scope.questionId = data.questionId;
+                if(!$scope.$$phase) $scope.$apply();
             });
         }
     }
