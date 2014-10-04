@@ -1,3 +1,6 @@
+/// <reference path="model.ts" />
+declare var io;
+
 module Quizzical.App {
 
     function routing($stateProvider, $urlRouterProvider) {

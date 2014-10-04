@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
-    var typescriptFiles = ['app/*.ts', 'app/**/*.ts', 'testing/*.ts'];
+    var typescriptFiles = ['*.ts','app/*.ts', 'app/**/*.ts', 'testing/*.ts'];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
