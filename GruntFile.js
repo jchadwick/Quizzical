@@ -52,6 +52,16 @@ module.exports = function (grunt) {
                 singleRun: true,
             }
         },
+        less: {
+            development: {
+                options: {
+                    compress: true,
+                    yuicompress: true,
+                    optimization: 2
+                },
+                files: { 'app/site.css': 'app/**.less' }
+            }
+        },
         typescript: {
             all: {
                 src: typescriptFiles,
@@ -63,11 +73,11 @@ module.exports = function (grunt) {
         },
         watch: {
             "static": {
-                files: ['index.html','app/**/*.js','app/**/*.html','app/**/*.css'],
+                files: ['index.html', 'app/**/*.js', 'app/**/*.html', 'app/**/*.css', '**/*.less'],
                 options: {
                     livereload: true
                 }
-            }
+            },
         },
         open: {
             dev: {
@@ -94,7 +104,7 @@ module.exports = function (grunt) {
 
     }
 
-    grunt.registerTask('preprocess', ['typescript', 'fileblocks']);
+    grunt.registerTask('preprocess', ['typescript', 'less', 'fileblocks']);
     grunt.registerTask('dev-watch', ['preprocess', 'concurrent:target']);
     grunt.registerTask('server', ['preprocess', 'connect', 'open', 'concurrent:target']);
     grunt.registerTask('test', ['preprocess', 'karma:travis']);
