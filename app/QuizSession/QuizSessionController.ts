@@ -4,17 +4,12 @@
 module Quizzical {
     'use strict';
 
-    interface ConnectedUserViewModel extends User {
-    }
-
     export interface QuizSessionViewModel extends ng.IScope {
         sessionId: number;
         quizId: number;
         questionId?: number;
         quizName: string;
         totalQuestions: number;
-
-        connectedUsers: User[];
 
         quiz: Quiz;
     }
@@ -31,8 +26,6 @@ module Quizzical {
 
             $log.debug('[QuizSessionController] Init');
 
-            $scope.connectedUsers = [];
-
             if (!$scope.sessionId) {
                 $log.warn('[QuizSessionController] Invalid Session ID');
                 return;
@@ -46,34 +39,8 @@ module Quizzical {
 
                 sessionService.getById($scope.sessionId).then((session: QuizSession) => {
                     $scope.quizId = session.quizId;
-
-                    (session.connectedUserIds || []).forEach(addConnectedUser);
-
                     loadQuiz();
                 });
-            }
-
-            function getConnectedUser(userId: string) {
-                var users = $scope.connectedUsers.filter(u => u.id == userId);
-                return users.length ? users[0] : null;
-            }
-
-            function removeConnectedUser(userId: string) {
-                var user = getConnectedUser(userId),
-                    index = $scope.connectedUsers.indexOf(user);
-
-                if (index) {
-                    $scope.connectedUsers.splice(index, 1);
-                }
-            }
-
-            function addConnectedUser(userId: string) {
-                var user = getConnectedUser(userId);
-
-                if (user) return;
-
-                var username = userId;  // TODO: Fetch username
-                $scope.connectedUsers.push(<ConnectedUserViewModel>{ id: userId, name: username });
             }
 
             function loadQuiz() {
@@ -90,13 +57,6 @@ module Quizzical {
             $scope.$on('question.changed', (args, data) => {
                 $scope.questionId = data.questionId;
                 if(!$scope.$$phase) $scope.$apply();
-            });
-
-            $scope.$on('user.connected', (args, data) => {
-                addConnectedUser(data.userId);
-            });
-            $scope.$on('user.disconnected', (args, data) => {
-                removeConnectedUser(data.userId);
             });
         }
     }

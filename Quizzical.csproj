@@ -55,6 +55,7 @@
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
     <Content Include="app\.gitignore" />
+    <Content Include="app\ConnectedUsers\ConnectedUsers.tmpl.html" />
     <Content Include="app\index.html" />
     <Content Include="app\Question\Question.tmpl.html" />
     <Content Include="app\QuizSession\QuizSession.tmpl.html" />
@@ -66,6 +67,8 @@
     <Content Include="testing\.gitignore" />
     <Content Include="Procfile" />
     <TypeScriptCompile Include="app\acceptance.spec.ts" />
+    <TypeScriptCompile Include="app\ConnectedUsers\ConnectedUsersController.spec.ts" />
+    <TypeScriptCompile Include="app\ConnectedUsers\ConnectedUsersController.ts" />
     <TypeScriptCompile Include="app\mockData.ts" />
     <TypeScriptCompile Include="app\Question\QuestionDirective.ts" />
     <TypeScriptCompile Include="app\Question\QuestionController.ts" />
@@ -77,7 +80,7 @@
     <TypeScriptCompile Include="app\services\QuestionService.spec.ts" />
     <TypeScriptCompile Include="app\services\QuizService.spec.ts" />
     <TypeScriptCompile Include="app\SessionList\SessionListController.spec.ts" />
-    <TypeScriptCompile Include="server\server.ts" />
+    <TypeScriptCompile Include="server.ts" />
     <TypeScriptCompile Include="testing\beforeEach.ts" />
     <Content Include="karma.conf.js" />
     <Content Include="chutzpah.json" />

@@ -10,8 +10,5 @@
 </div>
 
 <div class="col-md-4">
-    <h3>Connected Users ({{connectedUsers.length}})</h3>
-    <ul>
-        <li ng-repeat="user in connectedUsers">{{user.name}}</li>
-    </ul>
+    <div ng-include="'/app/ConnectedUsers/ConnectedUsers.tmpl.html'" ng-controller="ConnectedUsersController"></div>
 </div>
