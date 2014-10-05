@@ -1,4 +1,6 @@
-﻿var io = require('socket.io');
+﻿declare var exports: any;
+
+var io = require('socket.io');
 
 var connectedUsers = [];
 
@@ -48,4 +50,4 @@ class QuizSession {
 
 }
 
-module.exports = exports = QuizSession;
+exports = QuizSession;

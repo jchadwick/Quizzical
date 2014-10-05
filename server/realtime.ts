@@ -1,9 +1,11 @@
-﻿var socketIo = require('socket.io'),
-    QuizSession = require('./QuizSession');
+﻿declare var exports: any;
 
-module.exports = exports = (server) => {
+var socketIo = require('socket.io'),
+    quizSession = require('./QuizSession');
+
+exports = (server) => {
     var io = socketIo(server),
-        session = new QuizSession(server);
+        session = new quizSession(server);
 
     io.on('connection', socket => {
 
@@ -19,4 +21,3 @@ module.exports = exports = (server) => {
 
     });    
 }
-

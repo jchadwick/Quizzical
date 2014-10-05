@@ -1,8 +1,10 @@
-﻿var QuizSession = require('./QuizSession');
+﻿declare var exports: any;
 
-module.exports = exports = (app, server) => {
+var quizSession = require('./QuizSession');
+
+exports = (app, server) => {
     
-    var session = new QuizSession(server);
+    var session = new quizSession(server);
 
     app.get('/api/users', (req, res) => {
         res.json(session.getConnectedUsers());
