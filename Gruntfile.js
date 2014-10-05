@@ -38,17 +38,16 @@ module.exports = function (grunt) {
         karma: {
             options: {
                 configFile: 'karma.conf.js',
-                reporters: ['progress', 'growl']
+                browsers: ['PhantomJS'],
             },
             coverage: {
-                browsers: ['PhantomJS'],
                 reporters: ['coverage'],
                 singleRun: true,
             },
             unit: {
+                reporters: ['progress', 'growl', 'coverage']
             },
             travis: {
-                browsers: ['PhantomJS'],
                 reporters: ['coverage'],
                 singleRun: true,
             }
