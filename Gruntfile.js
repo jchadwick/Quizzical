@@ -66,7 +66,7 @@ module.exports = function (grunt) {
             all: {
                 src: typescriptFiles,
                 options: {
-                    module: 'amd',
+                    module: 'commonjs',
                     target: 'es5'
                 }
             }

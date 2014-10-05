@@ -29,7 +29,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1473</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
@@ -81,6 +81,9 @@
     <TypeScriptCompile Include="app\services\QuizService.spec.ts" />
     <TypeScriptCompile Include="app\SessionList\SessionListController.spec.ts" />
     <TypeScriptCompile Include="server.ts" />
+    <TypeScriptCompile Include="server\api.ts" />
+    <TypeScriptCompile Include="server\realtime.ts" />
+    <TypeScriptCompile Include="server\quiz-session.ts" />
     <TypeScriptCompile Include="testing\beforeEach.ts" />
     <Content Include="karma.conf.js" />
     <Content Include="chutzpah.json" />
@@ -119,7 +122,7 @@
     <Content Include="app\site.less" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptModuleKind>amd</TypeScriptModuleKind>
+    <TypeScriptModuleKind>commonjs</TypeScriptModuleKind>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
 </Project>
