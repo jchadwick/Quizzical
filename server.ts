@@ -2,8 +2,8 @@ declare var require, __dirname, process;
 
 var express = require('express'),
     http = require('http'),
-    api = require('./server/API'),
-    realtime = require('./server/Realtime');
+    api = require('./server/api'),
+    realtime = require('./server/realtime');
 
 var app = express(),
     server = http.Server(app);

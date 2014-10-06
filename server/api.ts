@@ -2,7 +2,7 @@
 
 var quizSession = require('./QuizSession');
 
-exports = (app, server) => {
+module['exports'] = exports = (app, server) => {
     
     var session = new quizSession(server);
 
@@ -15,4 +15,5 @@ exports = (app, server) => {
         res.send('OK');
     });
 
+    console.log('REST API initialized');
 };

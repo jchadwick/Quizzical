@@ -1,7 +1,7 @@
 module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
-    var typescriptFiles = ['app/**.ts', 'server.ts', 'server/**.ts', 'testing/**.ts'];
+    var typescriptFiles = ['app/*.ts', 'app/**/*.ts', 'server.ts', 'server/**.ts', 'testing/**.ts'];
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -104,10 +104,21 @@ module.exports = function (grunt) {
 
     }
 
-    grunt.registerTask('preprocess', ['typescript', 'less', 'fileblocks']);
-    grunt.registerTask('dev-watch', ['preprocess', 'concurrent:target']);
-    grunt.registerTask('server', ['preprocess', 'connect', 'open', 'concurrent:target']);
-    grunt.registerTask('test', ['preprocess', 'karma:travis']);
-    grunt.registerTask('heroku:production', ['preprocess']);
+    grunt.registerTask('clean', function() {
+        var filesToDelete = grunt.file.expand('app/*.js*')
+                .concat(grunt.file.expand('app/**/*.js*'))
+                .concat(grunt.file.expand('app/*.css*'))
+                .concat(grunt.file.expand('server/**.js*'));
+
+        for (var i = 0; i < filesToDelete.length; i++) {
+            grunt.file.delete(filesToDelete[i]);
+        }
+    });
+
+    grunt.registerTask('build', ['clean', 'typescript', 'less', 'fileblocks']);
+    grunt.registerTask('dev-watch', ['build', 'concurrent:target']);
+    grunt.registerTask('server', ['build', 'connect', 'open', 'concurrent:target']);
+    grunt.registerTask('test', ['build', 'karma:travis']);
+    grunt.registerTask('heroku:production', ['build']);
     grunt.registerTask('default', ['server']);
 }

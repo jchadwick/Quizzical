@@ -50,4 +50,4 @@ class QuizSession {
 
 }
 
-exports = QuizSession;
+module['exports'] = exports = QuizSession;
