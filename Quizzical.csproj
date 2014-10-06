@@ -82,8 +82,9 @@
     <TypeScriptCompile Include="app\SessionList\SessionListController.spec.ts" />
     <TypeScriptCompile Include="server.ts" />
     <TypeScriptCompile Include="server\api.ts" />
+    <TypeScriptCompile Include="server\ConnectedUsers.ts" />
+    <TypeScriptCompile Include="server\QuizSession.ts" />
     <TypeScriptCompile Include="server\realtime.ts" />
-    <TypeScriptCompile Include="server\quiz-session.ts" />
     <TypeScriptCompile Include="testing\beforeEach.ts" />
     <Content Include="karma.conf.js" />
     <Content Include="chutzpah.json" />

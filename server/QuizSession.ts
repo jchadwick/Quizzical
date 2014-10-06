@@ -2,13 +2,16 @@
 
 var io = require('socket.io')();
 
-class QuizSession {
+module Quizzical.Server {
 
-    changeQuestionId(questionId: number) {
-        console.log('broadcasting currentQuestionId: ' + questionId);
-        io.emit('question.changed', { questionId: questionId });
+    class QuizSession {
+
+        changeQuestionId(questionId: number) {
+            console.log('broadcasting currentQuestionId: ' + questionId);
+            io.emit('question.changed', { questionId: questionId });
+        }
+
     }
 
+    module['exports'] = exports = QuizSession;
 }
-
-module['exports'] = exports = QuizSession;

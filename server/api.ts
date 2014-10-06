@@ -1,19 +1,21 @@
 ﻿declare var exports: any;
 
-var quizSession = require('./QuizSession');
+var ConnectedUsers = require('./ConnectedUsers'),
+    QuizSession = require('./QuizSession');
 
-module['exports'] = exports = (app, server) => {
+function initializeRestApi(app, server) {
     
-    var session = new quizSession(server);
-
-    app.get('/api/users', (req, res) => {
-        res.json(session.getConnectedUsers());
+    app.get('/api/sessions/:sessionId/users', (req, res) => {
+        res.json(ConnectedUsers.getUsersInSession(req.params.sessionId));
     });
 
     app.post('/api/sessions/:sessionId/questions/:questionId/select', (req, res) => {
-        session.changeQuestionId(req.params.questionId);
+        new QuizSession(server).changeQuestionId(req.params.questionId);
         res.send('OK');
     });
 
     console.log('REST API initialized');
 };
+
+
+module['exports'] = exports = initializeRestApi;
