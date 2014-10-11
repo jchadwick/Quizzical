@@ -3,7 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quizzical", "Quizzical.csproj", "{71466BD5-1270-4E0C-896E-3D318C909888}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quizzical", "Quizzical\Quizzical.csproj", "{962160E1-E84B-4622-9FE2-6B91979727FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{9F0018A2-9E9A-48A5-9F39-64E7A4F7D1FC}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\AzureWebsitePublishModule.psm1 = PublishScripts\AzureWebsitePublishModule.psm1
+		PublishScripts\Publish-WebApplicationWebsite.ps1 = PublishScripts\Publish-WebApplicationWebsite.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configurations", "Configurations", "{9A82ADC8-9235-48AE-806C-99D0B603534E}"
+	ProjectSection(SolutionItems) = preProject
+		PublishScripts\Configurations\Quizzical-WAWS-dev.json = PublishScripts\Configurations\Quizzical-WAWS-dev.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +22,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{71466BD5-1270-4E0C-896E-3D318C909888}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71466BD5-1270-4E0C-896E-3D318C909888}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71466BD5-1270-4E0C-896E-3D318C909888}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71466BD5-1270-4E0C-896E-3D318C909888}.Release|Any CPU.Build.0 = Release|Any CPU
+		{962160E1-E84B-4622-9FE2-6B91979727FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{962160E1-E84B-4622-9FE2-6B91979727FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{962160E1-E84B-4622-9FE2-6B91979727FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{962160E1-E84B-4622-9FE2-6B91979727FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9A82ADC8-9235-48AE-806C-99D0B603534E} = {9F0018A2-9E9A-48A5-9F39-64E7A4F7D1FC}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="Quizzical.App">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Quizzical:  The awesomest quiz game ever</title>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bower_components/angular-ui/build/angular-ui.css" rel="stylesheet">
+    <link href="bower_components/angular-toastr/dist/angular-toastr.css" rel="stylesheet">
+    <link href="app/site.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h3 class="text-muted pull-left">Quizzical</h3>
+            <ul class="nav nav-pills pull-right">
+                <li><a class="btn btn-xx-small btn-info" href="#/sessions">Sessions</a></li>
+            </ul>
+            <a id="fork-me" href="https://github.com/jchadwick/Quizzical"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <div id="main-view" ui-view></div>
+
+        <div class="clearfix"></div>
+        <div class="footer">
+            <p>&copy; Jess Chadwick 2014</p>
+        </div>
+
+    </div> <!-- /container -->
+
+
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-ui/build/angular-ui.js"></script>
+    <script src="bower_components/ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-toastr/dist/angular-toastr.js"></script>
+
+    <script src="app/model.js"></script>
+
+    <!-- fileblock:js services -->
+    <script src="app/services/AnswerService.js"></script>
+    <script src="app/services/QuestionService.js"></script>
+    <script src="app/services/QuizService.js"></script>
+    <script src="app/services/QuizSessionService.js"></script>
+    <!-- endfileblock -->
+
+    <!-- fileblock:js controllers -->
+    <script src="app/ConnectedUsers/ConnectedUsersController.js"></script>
+    <script src="app/Question/QuestionController.js"></script>
+    <script src="app/QuizSession/QuizSessionController.js"></script>
+    <script src="app/SessionList/SessionListController.js"></script>
+    <!-- endfileblock -->
+
+    <!-- fileblock:js directives -->
+    <script src="app/Question/QuestionDirective.js"></script>
+    <script src="app/QuizSession/QuizSessionDirective.js"></script>
+    <!-- endfileblock -->
+
+<!--
+    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="app/mockData.js"></script>
+-->
+
+    <script src="app/app.js"></script>
+</body>
+</html>
