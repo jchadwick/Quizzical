@@ -4,7 +4,7 @@ module Quizzical.App {
 
     function routing($stateProvider, $urlRouterProvider) {
         
-        $urlRouterProvider.otherwise("/sessions");
+        $urlRouterProvider.otherwise("/sessions/1");
 
         $stateProvider
             .state('Sessions', {
@@ -31,21 +31,30 @@ module Quizzical.App {
 
             $scope.$on('session.joined', (args, data) => {
                 $log.debug('Navigating to session #' + data.sessionId);
-                $location.path(['/sessions', data.sessionId].join('/'));
+//                $location.path(['/sessions', data.sessionId].join('/'));
             });
 
-/*
-            rebroadcast('question.changed');
-            rebroadcast('user.connected');
-            rebroadcast('user.disconnected');
+            var $: any = jQuery;
+            var quizSession = $.connection.quizSessionHub;
 
-            function rebroadcast(name) {
-                socket.on(name, data => {
-                    $log.debug('[SERVER] ', name, data);
-                    angular.element('body').scope().$broadcast(name, data);
-                });
+            quizSession.client.onQuestionChanged = (questionId) => {
+                $log.debug('question.changed', questionId);
+                $scope.$broadcast('question.changed', { questionId: questionId });
             }
-*/
+
+            quizSession.client.onUserConnected = (userId) => {
+                $log.debug('user.connected', userId);
+                $scope.$broadcast('user.connected', { id: userId });
+            }
+
+            quizSession.client.onUserDisconnected = (userId) => {
+                $log.debug('user.disconnected', userId);
+                $scope.$broadcast('user.disconnected', { id: userId });
+            }
+
+            $.connection.hub.start().done(() => {
+                $log.debug('Connected to real-time updates');
+            });
         }]);
 
 }

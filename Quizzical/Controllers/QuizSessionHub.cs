@@ -51,6 +51,7 @@ namespace Quizzical.Controllers
         public override Task OnConnected()
         {
             RegisterConnectedUser();
+            JoinSession(1);
 
             return base.OnConnected();
         }
@@ -99,7 +100,7 @@ namespace Quizzical.Controllers
 
         public static void UpdateCurrentQuestion(long sessionId, long questionId)
         {
-            SessionClients(sessionId).changeCurrentQuestion(questionId);
+            SessionClients(sessionId).onQuestionChanged(questionId);
         }
 
         private static dynamic SessionClients(long sessionId)

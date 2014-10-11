@@ -203,6 +203,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\QuizSessionsController.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
     <Compile Include="Areas\HelpPage\Controllers\HelpController.cs" />
@@ -250,6 +252,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\ConnectedUsers\ConnectedUsers.tmpl.html" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\QuizSessions\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\QuizSessions\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\QuizSessions\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\QuizSessions\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\QuizSessions\Index.cshtml" />
     <None Include="Default.cshtml" />
     <Content Include="app\Question\Question.tmpl.html" />
     <Content Include="app\QuizSession\QuizSession.tmpl.html" />
@@ -330,6 +340,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

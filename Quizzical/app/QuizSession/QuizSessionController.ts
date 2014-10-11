@@ -39,6 +39,7 @@ module Quizzical {
 
                 sessionService.getById($scope.sessionId).then((session: QuizSession) => {
                     $scope.quizId = session.quizId;
+                    $scope.questionId = session.currentQuestionId;
                     loadQuiz();
                 });
             }

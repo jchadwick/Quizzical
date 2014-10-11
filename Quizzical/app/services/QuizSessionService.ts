@@ -13,9 +13,9 @@ module Quizzical {
     }
 
 
-    QuizSessionService.$inject = ['$resource'];
+    QuizSessionService.$inject = ['$resource', '$q'];
 
-    function QuizSessionService($resource: ng.resource.IResourceService) {
+    function QuizSessionService($resource: ng.resource.IResourceService, $q: ng.IQService) {
 
         var QuizSessionData =
             $resource<ng.resource.IResource<QuizSession>>('/api/sessions/:sessionId', { 'sessionId': '@sessionId' }, {
@@ -45,7 +45,16 @@ module Quizzical {
                 if (!sessionId)
                     throw 'Invalid Session Id';
 
-                return (<any>QuizSessionData).join({ sessionId: sessionId }).$promise;
+                var $: any = jQuery;
+                var deferred = $q.defer<QuizSession>();
+
+                $.connection.quizSessionHub.server.joinSession(sessionId)
+                    .then(() => {
+                        new QuizSessionData({ sessionId: sessionId }).$get()
+                            .then((session) => { deferred.resolve(session); });
+                    });
+
+                return deferred.promise;
             },
 
             list: (): ng.IPromise<QuizSession[]> => {
