@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quizzical", "Quizzical\Quizzical.csproj", "{962160E1-E84B-4622-9FE2-6B91979727FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quizzical", "Quizzical.csproj", "{962160E1-E84B-4622-9FE2-6B91979727FE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PublishScripts", "PublishScripts", "{9F0018A2-9E9A-48A5-9F39-64E7A4F7D1FC}"
 	ProjectSection(SolutionItems) = preProject
