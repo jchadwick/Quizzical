@@ -1,0 +1,12 @@
+﻿{
+    "References": [
+        { "Path": "bower_components/jquery/dist/jquery.js" },
+        { "Path": "bower_components/angular/angular.js" },
+        { "Path": "bower_components/angular-resource/angular-resource.js" },
+        { "Path": "bower_components/angular-mocks/angular-mocks.js" },
+        { "Path": "bower_components/angular-ui/build/angular-ui.js" },
+        { "Path": "testing", "Include": "*.js" },
+        { "Path": "app", "Include": "**/*.js" },
+        { "Path": "app", "Include": "*.js", "Exclude": "app.js|acceptance.spec.js" }
+    ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "Quizzical",
+  "version": "0.1.0",
+  "description": "0.1.0",
+  "main": "karma.conf.js",
+  "dependencies": {
+    "body-parser": "^1.9.0",
+    "bower": "^1.3.11",
+    "express": "^4.9.5",
+    "grunt": "~0.4.5",
+    "grunt-concurrent": "~1.0.0",
+    "grunt-contrib-connect": "~0.8.0",
+    "grunt-contrib-less": "^0.11.4",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-file-blocks": "~0.3.3",
+    "grunt-karma": "~0.9.0",
+    "grunt-open": "~0.2.3",
+    "grunt-typescript": "~0.3.8",
+    "karma": "~0.12.23",
+    "karma-chrome-launcher": "~0.1.4",
+    "karma-coverage": "~0.2.6",
+    "karma-growl-reporter": "~0.1.1",
+    "karma-jasmine": "~0.2.0",
+    "karma-phantomjs-launcher": "~0.1.2",
+    "load-grunt-tasks": "~0.6.0",
+    "mongoskin": "^1.4.4",
+    "socket.io": "^1.1.0",
+    "typescript": "~1.0.1"
+  },
+  "devDependencies": {
+    "express-livereload": "0.0.24"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jchadwick/Quizzical.git"
+  },
+  "scripts": {
+    "test": "grunt test",
+    "postinstall": "bower install"
+  },
+  "author": "Jess Chadwick <jesschadwick@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/jchadwick/Quizzical/issues"
+  },
+  "homepage": "https://github.com/jchadwick/Quizzical",
+  "engines": {
+    "node": "0.10.x"
+  }
+}
