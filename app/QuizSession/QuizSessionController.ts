@@ -10,6 +10,7 @@ module Quizzical {
         questionId?: number;
         quizName: string;
         totalQuestions: number;
+        isAdmin?: boolean;
 
         quiz: Quiz;
     }
@@ -26,6 +27,8 @@ module Quizzical {
 
             $log.debug('[QuizSessionController] Init');
 
+            $scope.isAdmin = true;
+
             if (!$scope.sessionId) {
                 $log.warn('[QuizSessionController] Invalid Session ID');
                 return;
@@ -39,7 +42,10 @@ module Quizzical {
 
                 sessionService.getById($scope.sessionId).then((session: QuizSession) => {
                     $scope.quizId = session.quizId;
-                    $scope.questionId = session.currentQuestionId;
+
+                    if (session.currentQuestionId)
+                        $scope.questionId = session.currentQuestionId;
+
                     loadQuiz();
                 });
             }

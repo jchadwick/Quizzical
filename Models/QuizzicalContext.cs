@@ -27,7 +27,7 @@ namespace Quizzical.Models
         public DbSet<Quiz> Quizzes { get; set; }
 
 
-        class Initializer : DropCreateDatabaseIfModelChanges<QuizzicalContext>
+        class Initializer : DropCreateDatabaseAlways<QuizzicalContext>
         {
             protected override void Seed(QuizzicalContext context)
             {
@@ -71,6 +71,8 @@ namespace Quizzical.Models
         public DbSet<Answer> Answers { get; set; }
 
         public DbSet<QuestionOption> QuestionOptions { get; set; }
+
+        public System.Data.Entity.DbSet<Quizzical.User> Users { get; set; }
     }
 
 

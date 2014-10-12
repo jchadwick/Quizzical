@@ -1,4 +1,6 @@
-﻿<div class="jumbotron col-md-8">
+﻿<div ng-if="isAdmin" ng-include="'/Admin/QuizSessions/Panel/'+sessionId"></div>
+
+<div class="jumbotron col-md-8">
     <h3>{{quizName}}</h3>
 
     <div ng-if="!questionId">

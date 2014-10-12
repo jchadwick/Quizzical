@@ -16,10 +16,15 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
+                @Html.ActionLink("Quizzical :: Administration", "Index", "Home", new { area = "Admin" }, new { @class = "navbar-brand" })
+            </div>  
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li class="navbar-btn">@Html.ActionLink("Quizzes", "Index", "Quizzes")</li>
+                    <li class="navbar-btn">@Html.ActionLink("Questions", "Index", "Questions")</li>
+                    <li class="navbar-btn">@Html.ActionLink("Answers", "Index", "Answers")</li>
+                    <li class="navbar-btn">@Html.ActionLink("Sessions", "Index", "QuizSessions")</li>
+                    <li class="navbar-btn">@Html.ActionLink("Users", "Index", "Users")</li>
                 </ul>
             </div>
         </div>

@@ -1,0 +1,39 @@
+﻿@model QuizSession
+
+<div id="QuizSessionAdminPanel" class="col-md-4 well-sm">
+    <h3>Session Admin</h3>
+    <div class="col-md-12">
+        <span class="col-md-12">
+            <label>Session Id: </label>
+            <span ng-bind="sessionId"></span>
+        </span>
+        <span class="col-md-12">
+            <label for="currentQuestionId">Current Question: </label>
+            <span ng-bind="questionId"></span>
+        </span>
+    </div>
+
+    <div class="col-md-12 text-center ">
+        <div class="question-nav btn-group btn-group-lg" data-session="">
+            <button data-action="prev" type="button" class="btn"><small><i class="glyphicon glyphicon-chevron-left"></i>Back</small></button>
+            <button data-action="next" type="button" class="btn btn-primary">Next Question <i class="glyphicon glyphicon-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <hr />
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        var changeQuestionUrl = '@Url.Action("ChangeQuestion", "QuizSessions", new { area = "Admin" })/';
+
+        $('#QuizSessionAdminPanel .question-nav button').on('click', function () {
+            var el = $(this),
+                $scope = el.scope(),
+                action = el.data('action');
+
+            $.post(changeQuestionUrl + $scope.sessionId + '?val=' + action);
+        });
+    })
+</script>
