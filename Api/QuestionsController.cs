@@ -27,7 +27,7 @@ namespace Quizzical.Api
         public async Task<IHttpActionResult> GetQuestion(long quizId, long questionId)
         {
             var questions = db.Quizzes.Where(x => x.Id == quizId).SelectMany(x => x.Questions);
-            var question = await questions.FirstOrDefaultAsync();
+            var question = await questions.FirstOrDefaultAsync(x => x.Id == questionId);
 
             if (question == null)
             {
