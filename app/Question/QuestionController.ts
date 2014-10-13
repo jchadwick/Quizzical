@@ -90,9 +90,9 @@ module Quizzical {
 
                 $log.debug('[QuestionController] Loading question '+$scope.questionId+'...');
                 questionService.getById($scope.quizId, $scope.questionId).then((question: Question) => {
-                    $scope.description = question.description;
-                    $scope.extendedDescription = question.extendedDescription;
-                    $scope.options = <any>question.options;
+                    $scope.selectedOption = null;
+                    $scope.answerSubmitted = false;
+                    angular.extend($scope, question);
                     $log.debug('[QuestionController] Loaded question ' + $scope.questionId);
                 });
             }
