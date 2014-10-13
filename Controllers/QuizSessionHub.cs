@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -101,6 +102,16 @@ namespace Quizzical.Controllers
         public static void UpdateCurrentQuestion(long sessionId, long questionId)
         {
             SessionClients(sessionId).onQuestionChanged(questionId);
+        }
+
+        public static void UpdateQuestionSummary(AnswersSummary summary)
+        {
+            if (summary == null)
+                throw new ArgumentNullException("summary");
+            if (summary.SessionId <= 0)
+                throw new ArgumentOutOfRangeException("summary.SessionId", "Invalid answer summary session ID " + summary.SessionId);
+
+            SessionClients(summary.SessionId).onQuestionSummaryChanged(summary);
         }
 
         private static dynamic SessionClients(long sessionId)

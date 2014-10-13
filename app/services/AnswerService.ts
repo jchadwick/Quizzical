@@ -21,7 +21,7 @@ module Quizzical {
                 { 'sessionId': '@sessionId', 'questionId': '@questionId', 'answerId': '@answerId' },
                 {
                     'submit': { method: 'POST', url: url.replace('answers', 'answer'), params: { 'quizId': '@quizId', 'sessionId': '@sessionId', 'questionId': '@questionId', 'answerId': '@id' } },
-                    'summary': { method: 'GET', isArray: true, url: url + '/summary', params: { 'quizId': '@quizId', 'sessionId': '@sessionId', 'questionId': '@questionId', 'answerId': '@id' } },
+                    'summary': { method: 'GET', url: url + '/summary', params: { 'quizId': '@quizId', 'sessionId': '@sessionId', 'questionId': '@questionId', 'answerId': '@id' } },
                 }
             );
 
@@ -33,30 +33,7 @@ module Quizzical {
             },
 
             getSummary: (questionId: number, sessionId: number): ng.IPromise<AnswersSummary> => {
-                var allAnswersRequest = (<any>AnswerData).summary({ questionId: questionId, sessionId: sessionId }).$promise;
-
-                return allAnswersRequest.then(answers => {
-
-                    // TODO:  This should all happen on the server side!
-                    var optionIds = answers.map((a) => a.questionOptionId);
-
-                    var summaries = optionIds.map((optionId: number) => {
-                        var count = answers.filter((a) => a.questionOptionId == optionId).length,
-                            percentage = Math.floor((count / answers.length) * 100);
-
-                        return <AnswerSummary>{
-                            questionOptionId: optionId,
-                            count: count,
-                            percentage: percentage,
-                        };
-                    });
-
-                    return <AnswersSummary> {
-                        questionId: questionId,
-                        sessionId: sessionId,
-                        answers: summaries,
-                    };
-                });
+                return (<any>AnswerData).summary({ questionId: questionId, sessionId: sessionId }).$promise;
             },
 
             submit: (answer: Quizzical.Answer): ng.IPromise<Answer> => {

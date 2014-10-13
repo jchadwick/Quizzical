@@ -19,7 +19,7 @@ namespace Quizzical.Areas.Admin.Controllers
         // GET: Admin/Answers
         public async Task<ActionResult> Index()
         {
-            var answers = db.Answers.Include(a => a.Question).Include(a => a.QuestionOption).Include(a => a.Session).Include(a => a.User);
+            var answers = db.Answers.Include(a => a.Question).Include(a => a.QuestionOption).Include(a => a.Session);
             return View(await answers.ToListAsync());
         }
 

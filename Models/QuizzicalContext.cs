@@ -90,20 +90,25 @@ namespace Quizzical.Models
                                               long questionId, long sessionId)
         {
             var filtered = answers.Where(x => x.QuestionId == questionId && x.SessionId == sessionId);
+            double totalCount = filtered.Count();
 
             var summaries =
-                from optionId in filtered.Select(x => x.QuestionOptionId)
-                let count = filtered.Count(a => a.QuestionOptionId == optionId)
-                let percentage = Math.Floor((count / (double)filtered.Count()) * 100)
+                from answer in filtered
+                group answer by answer.QuestionOptionId into grouped
+                let count = grouped.Count()
+                let percentage = Math.Floor((count / totalCount) * 100)
                 select new AnswerSummary
                 {
-                    QuestionOptionId = optionId,
+                    QuestionOptionId = grouped.Key,
                     Count = count,
                     Percentage = (int)percentage
                 };
 
+            long quizId = await filtered.Select(x => x.Session.QuizId).FirstAsync();
+
             return new AnswersSummary
             {
+                QuizId = quizId,
                 QuestionId = questionId,
                 SessionId = sessionId,
                 Answers = await summaries.ToArrayAsync(),

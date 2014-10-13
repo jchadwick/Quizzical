@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Quizzical.Controllers;
 using Quizzical.Models;
 
 namespace Quizzical.Api
@@ -14,7 +15,7 @@ namespace Quizzical.Api
 
         protected string UserId
         {
-            get { return userId ??User.Identity.Name; }
+            get { return userId ?? System.Guid.NewGuid().ToString("N") ?? User.Identity.Name; }
             set { userId = value; }
         }
         private string userId;
@@ -64,13 +65,16 @@ namespace Quizzical.Api
             {
                 answer.UserId = UserId;
                 db.Answers.Add(answer);
-                await db.SaveChangesAsync();
-                return Ok(answer);
+            }
+            else
+            {
+                existing.QuestionOptionId = answer.QuestionOptionId;
             }
 
-            existing.QuestionOptionId = answer.QuestionOptionId;
-
             await db.SaveChangesAsync();
+
+            var summary = await db.Answers.GetSummaryAsync(questionId, sessionId);
+            QuizSessionHub.UpdateQuestionSummary(summary);
 
             return Ok(existing);
         }

@@ -42,6 +42,11 @@ module Quizzical.App {
                 $scope.$broadcast('question.changed', { questionId: questionId });
             }
 
+            quizSession.client.onQuestionSummaryChanged = (summary) => {
+                $log.debug('questionSummary.changed', summary);
+                $scope.$broadcast('questionSummary.changed', summary);
+            }
+
             quizSession.client.onUserConnected = (userId) => {
                 $log.debug('user.connected', userId);
                 $scope.$broadcast('user.connected', { id: userId });

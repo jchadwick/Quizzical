@@ -26,12 +26,11 @@ module.exports = function (grunt) {
                 removeFiles: true,
             },
             'default': {
-                options: { cwd: 'app/' },
-                src: 'app/index.html',
+                src: 'Default.cshtml',
                 blocks: {
-                    'controllers':  { src: '**/*Controller.js' },
-                    'directives':   { src: '**/*Directive.js' },
-                    'services':     { src: 'services/*Service.js' },
+                    'controllers':  { src: 'app/**/*Controller.js' },
+                    'directives':   { src: 'app/**/*Directive.js' },
+                    'services':     { src: 'app/services/*Service.js' },
                 }
             }
         },

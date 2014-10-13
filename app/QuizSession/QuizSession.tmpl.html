@@ -1,6 +1,6 @@
 ﻿<div ng-if="isAdmin" ng-include="'/Admin/QuizSessions/Panel/'+sessionId"></div>
 
-<div class="jumbotron col-md-8">
+<div class="jumbotron col-lg-8">
     <h3>{{quizName}}</h3>
 
     <div ng-if="!questionId">
@@ -11,6 +11,6 @@
 
 </div>
 
-<div class="col-md-4">
+<div class="col-lg-4 visible-lg">
     <div ng-include="'/app/ConnectedUsers/ConnectedUsers.tmpl.html'" ng-controller="ConnectedUsersController"></div>
 </div>

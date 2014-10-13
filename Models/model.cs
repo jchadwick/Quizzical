@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace Quizzical {
 
@@ -75,19 +76,25 @@ namespace Quizzical {
         public virtual QuizSession Session { get; set; }
 
 	    public string UserId { get; set; }
-        public virtual User User { get; set; }
 	}
 
     public class AnswersSummary {
+        [JsonProperty("questionId")]
         public long QuestionId { get; set; }
+        [JsonProperty("quizId")]
         public long QuizId { get; set; }
+        [JsonProperty("sessionId")]
         public long SessionId { get; set; }
+        [JsonProperty("answers")]
         public IEnumerable<AnswerSummary> Answers { get; set; }
     }
 
     public class AnswerSummary {
+        [JsonProperty("questionOptionId")]
         public long QuestionOptionId { get; set; }
+        [JsonProperty("count")]
         public int Count { get; set; }
+        [JsonProperty("percentage")]
         public int Percentage { get; set; }
     }
 

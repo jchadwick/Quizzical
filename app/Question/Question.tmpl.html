@@ -2,7 +2,8 @@
 <p class="description">{{extendedDescription}}</p>
 <hr />
 <ul class="nav" style="width:100%">
-    <li class="question-option" ng-repeat="option in options">
+
+    <li ng-if="!(answerSubmitted && answers)" class="question-option" ng-repeat="option in options">
         <button class="btn btn-lg btn-default" role="button"
                 ng-disabled="!canSelectAnswer()"
                 ng-class="{'btn-primary': option.selected}"
@@ -10,4 +11,24 @@
             {{option.description}}
         </button>
     </li>
+
+    <li ng-if="answerSubmitted && answers" class="question-option" ng-repeat="option in options">
+        <div class="btn-group btn-group-vertical" style="width: 100%">
+            <button class="btn btn-lg btn-default" role="button" disabled="disabled"
+                    ng-class="{'btn-primary': option.selected}"
+                    ng-click="angular.noop()">
+                <span ng-bind="option.description"></span>
+            </button>
+            <div style="position: relative">
+                <div class="progress" style="width: 100%; height: 2em">
+                    <div class="progress-bar progress-bar-success" role="progressbar"
+                         aria-valuemin="0" aria-valuemax="100"
+                         aria-valuenow="{{option.percentage}}" style="width: {{option.percentage}}%; height: 2em">
+                    </div>
+                </div>
+                <div class="text-center" style="position: absolute; top: 0; left: 0; width: 100%; line-height: 2em">{{option.count}} ({{option.percentage}}%)</div>
+            </div>
+        </div>
+    </li>
+
 </ul>
