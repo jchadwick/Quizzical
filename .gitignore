@@ -172,6 +172,8 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 
+*.sln.ide/
+
 node_modules/
 bower_components/
 .idea/
